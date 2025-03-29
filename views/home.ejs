@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('./partials/header') %>
+<head>
+  <title>Blogs</title>
+  <link rel="icon" type="image/png" href="/path/to/favicon.png">
+  <!-- Bootstrap CSS -->
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Bangers&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-color: #FF6B6B;
+      --secondary-color: #4ECDC4;
+      --accent-color: #FFD166;
+      --dark-color: #293241;
+      --light-color: #F8F9FA;
+    }
+    
+    body {
+      font-family: 'Comic Neue', cursive;
+      background-color: var(--light-color);
+      position: relative;
+      overflow-x: hidden;
+    }
+    
+    /* Cartoon character backgrounds */
+    .character {
+      position: fixed;
+      z-index: -1;
+      opacity: 0.15;
+      pointer-events: none;
+    }
+    
+    .character-1 {
+      top: 5%;
+      left: 2%;
+      width: 180px;
+      height: 180px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%23FFD166'/%3E%3Ccircle cx='35' cy='40' r='5' fill='%23293241'/%3E%3Ccircle cx='65' cy='40' r='5' fill='%23293241'/%3E%3Cpath d='M35 65 Q50 80 65 65' fill='none' stroke='%23293241' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-size: contain;
+      background-repeat: no-repeat;
+      animation: float 8s ease-in-out infinite;
+    }
+    
+    .character-2 {
+      bottom: 10%;
+      right: 5%;
+      width: 150px;
+      height: 150px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect x='20' y='20' width='60' height='60' rx='10' ry='10' fill='%234ECDC4'/%3E%3Ccircle cx='35' cy='40' r='5' fill='%23293241'/%3E%3Ccircle cx='65' cy='40' r='5' fill='%23293241'/%3E%3Cpath d='M30 70 L70 70' stroke='%23293241' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-size: contain;
+      background-repeat: no-repeat;
+      animation: float 6s ease-in-out infinite 1s;
+    }
+    
+    .character-3 {
+      top: 30%;
+      right: 10%;
+      width: 120px;
+      height: 120px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpolygon points='50,15 85,85 15,85' fill='%23FF6B6B'/%3E%3Ccircle cx='40' cy='55' r='5' fill='%23293241'/%3E%3Ccircle cx='60' cy='55' r='5' fill='%23293241'/%3E%3Cpath d='M40 70 Q50 80 60 70' fill='none' stroke='%23293241' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-size: contain;
+      background-repeat: no-repeat;
+      animation: float 7s ease-in-out infinite 0.5s;
+    }
+    
+    .character-4 {
+      bottom: 25%;
+      left: 5%;
+      width: 100px;
+      height: 100px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='40' fill='%239370DB'/%3E%3Ccircle cx='35' cy='40' r='5' fill='%23293241'/%3E%3Ccircle cx='65' cy='40' r='5' fill='%23293241'/%3E%3Cpath d='M35 60 Q50 50 65 60' fill='none' stroke='%23293241' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-size: contain;
+      background-repeat: no-repeat;
+      animation: float 9s ease-in-out infinite 1.5s;
+    }
+    
+    /* Floating animation for cartoon characters */
+    @keyframes float {
+      0% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-15px) rotate(5deg); }
+      100% { transform: translateY(0) rotate(0deg); }
+    }
+    
+    /* Blog notebook background */
+    .notebook-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: 
+        linear-gradient(to right, transparent 0%, transparent 98%, rgba(41, 50, 65, 0.1) 98%, rgba(41, 50, 65, 0.1) 100%),
+        linear-gradient(to bottom, transparent 0%, transparent 98%, rgba(41, 50, 65, 0.1) 98%, rgba(41, 50, 65, 0.1) 100%);
+      background-size: 30px 30px;
+      z-index: -2;
+      opacity: 0.4;
+    }
+    
+    /* Speech bubbles */
+    .speech-bubble {
+      position: absolute;
+      background-color: white;
+      border: 2px solid var(--dark-color);
+      border-radius: 15px;
+      padding: 10px;
+      font-size: 0.8rem;
+      z-index: -1;
+      opacity: 0.7;
+    }
+    
+    .speech-bubble:after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      width: 0;
+      height: 0;
+      border: 10px solid transparent;
+      border-top-color: var(--dark-color);
+      border-bottom: 0;
+      margin-left: -10px;
+      margin-bottom: -10px;
+    }
+    
+    .speech-bubble-1 {
+      top: 15%;
+      left: 20%;
+      transform: rotate(-5deg);
+      animation: bubble-float 10s ease-in-out infinite;
+    }
+    
+    .speech-bubble-2 {
+      bottom: 20%;
+      right: 15%;
+      transform: rotate(5deg);
+      animation: bubble-float 8s ease-in-out infinite 1s;
+    }
+    
+    @keyframes bubble-float {
+      0% { transform: translateY(0) rotate(-5deg); }
+      50% { transform: translateY(-10px) rotate(0deg); }
+      100% { transform: translateY(0) rotate(-5deg); }
+    }
+    
+    .page-header {
+      font-family: 'Bangers', cursive;
+      color: var(--dark-color);
+      text-align: center;
+      padding: 30px 0;
+      letter-spacing: 2px;
+      text-shadow: 2px 2px 0px var(--accent-color);
+      position: relative;
+    }
+    
+    .header-doodle {
+      position: absolute;
+      width: 40px;
+      height: 40px;
+      background-size: contain;
+      background-repeat: no-repeat;
+      opacity: 0.8;
+    }
+    
+    .doodle-1 {
+      top: 10px;
+      left: 30%;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 50 50'%3E%3Cpath d='M10,25 Q25,5 40,25' stroke='%23FF6B6B' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      transform: rotate(-15deg);
+    }
+    
+    .doodle-2 {
+      bottom: 5px;
+      right: 35%;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 50 50'%3E%3Cpath d='M5,25 Q25,45 45,25' stroke='%234ECDC4' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      transform: rotate(10deg);
+    }
+    
+    /* IMPROVED CARD STYLES */
+    .card {
+      border: none;
+      border-radius: 20px;
+      overflow: visible;
+      transition: all 0.3s ease;
+      background-color: white;
+      position: relative;
+      transform-style: preserve-3d;
+      margin-top: 15px;
+    }
+    
+    /* Comic book style card */
+    .card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      background: white;
+      border: 3px solid var(--dark-color);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 
+        0 10px 20px rgba(0,0,0,0.1),
+        0 6px 6px rgba(0,0,0,0.1),
+        0 0 0 3px var(--dark-color);
+    }
+    
+    /* Comic dots pattern on cards */
+    .card-inner::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: radial-gradient(circle, var(--dark-color) 1px, transparent 1px);
+      background-size: 20px 20px;
+      opacity: 0.03;
+      z-index: 1;
+      pointer-events: none;
+    }
+    
+    /* Card thumb tack */
+    .card::after {
+      content: "";
+      position: absolute;
+      top: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 20px;
+      height: 20px;
+      background: var(--accent-color);
+      border: 2px solid var(--dark-color);
+      border-radius: 50%;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      z-index: 10;
+    }
+    
+    /* Card rotation on hover */
+    .card:hover {
+      transform: translateY(-5px) rotate(1deg);
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    
+    .card:hover .card-inner {
+      box-shadow: 
+        0 15px 30px rgba(0,0,0,0.15),
+        0 10px 10px rgba(0,0,0,0.1),
+        0 0 0 3px var(--dark-color);
+    }
+    
+    /* Random rotation for cards */
+    .card:nth-child(odd) {
+      transform: rotate(-1deg);
+    }
+    
+    .card:nth-child(3n) {
+      transform: rotate(2deg);
+    }
+    
+    .card:nth-child(5n) {
+      transform: rotate(-2deg);
+    }
+    
+    /* Card image with frame */
+    .card-img-container {
+      position: relative;
+      padding: 15px 15px 5px 15px;
+    }
+    
+    .card-img-top {
+      height: 180px;
+      width: 100%;
+      object-fit: cover;
+      border: 3px solid var(--dark-color);
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
+    }
+    
+    .card:hover .card-img-top {
+      transform: scale(1.02);
+    }
+    
+    /* Polaroid style caption */
+    .card-img-caption {
+      position: absolute;
+      bottom: -10px;
+      right: 10px;
+      background: white;
+      padding: 3px 8px;
+      border: 2px solid var(--dark-color);
+      border-radius: 10px;
+      font-size: 0.7rem;
+      transform: rotate(3deg);
+      z-index: 2;
+    }
+    
+    .card-title {
+      font-family: 'Bangers', cursive;
+      color: var(--primary-color);
+      font-size: 1.5rem;
+      letter-spacing: 1px;
+      text-shadow: 1px 1px 0 rgba(0,0,0,0.1);
+      margin-bottom: 10px;
+      padding-bottom: 10px;
+      position: relative;
+    }
+    
+    /* Underline for title */
+    .card-title::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 50px;
+      height: 3px;
+      background: var(--accent-color);
+      border-radius: 3px;
+    }
+    
+    .card-text {
+      font-size: 0.95rem;
+      color: var(--dark-color);
+      position: relative;
+      z-index: 2;
+    }
+    
+    /* Decorative paper clip */
+    .paper-clip {
+      position: absolute;
+      top: -5px;
+      right: 20px;
+      width: 25px;
+      height: 40px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23A0A0A0' d='M16.5,6V17.5A4,4 0 0,1 12.5,21.5A4,4 0 0,1 8.5,17.5V5A2.5,2.5 0 0,1 11,2.5A2.5,2.5 0 0,1 13.5,5V15.5A1,1 0 0,1 12.5,16.5A1,1 0 0,1 11.5,15.5V6H10V15.5A2.5,2.5 0 0,0 12.5,18A2.5,2.5 0 0,0 15,15.5V5A4,4 0 0,0 11,1A4,4 0 0,0 7,5V17.5A5.5,5.5 0 0,0 12.5,23A5.5,5.5 0 0,0 18,17.5V6H16.5Z'/%3E%3C/svg%3E");
+      background-size: contain;
+      background-repeat: no-repeat;
+      transform: rotate(45deg);
+      opacity: 0.7;
+      z-index: 10;
+    }
+    
+    /* Tags and categories redesign */
+    .tag-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-top: 15px;
+    }
+    
+    .badge {
+      border-radius: 20px;
+      padding: 5px 10px;
+      font-weight: normal;
+      box-shadow: 2px 2px 0 rgba(0,0,0,0.1);
+      transition: all 0.2s ease;
+      border: 2px solid var(--dark-color);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .badge::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 50%);
+    }
+    
+    .badge.bg-primary {
+      background-color: var(--secondary-color) !important;
+      color: var(--dark-color);
+      transform: rotate(-2deg);
+    }
+    
+    .badge.bg-danger {
+      background-color: var(--accent-color) !important;
+      color: var(--dark-color);
+      transform: rotate(2deg);
+    }
+    
+    .badge:hover {
+      transform: scale(1.1) rotate(0deg);
+    }
+    
+    /* Button styles */
+    .btn-primary {
+      background: linear-gradient(to bottom, var(--primary-color), darken(var(--primary-color), 10%));
+      border: 2px solid var(--dark-color);
+      border-radius: l5px;
+      font-weight: bold;
+      padding: 8px 20px;
+      position: relative;
+      transition: all 0.3s ease;
+      box-shadow: 4px 4px 0 var(--dark-color);
+      margin-top: 10px;
+      color: white;
+      text-transform: uppercase;
+      font-size: 0.9rem;
+      letter-spacing: 1px;
+    }
+    
+    .btn-primary:hover {
+      background: var(--dark-color);
+      color: white;
+      transform: translate(2px, 2px);
+      box-shadow: 2px 2px 0 var(--accent-color);
+    }
+    
+    /* Read more link with dashed underline */
+    .btn-underline {
+      background: none;
+      border: none;
+      color: var(--dark-color);
+      font-weight: bold;
+      position: relative;
+      padding: 0;
+    }
+    
+    .btn-underline::after {
+      content: "";
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background-image: linear-gradient(to right, var(--primary-color) 0%, var(--primary-color) 50%, transparent 50%, transparent 100%);
+      background-size: 6px 2px;
+      background-repeat: repeat-x;
+    }
+    
+    .text-muted {
+      color: #6c757d !important;
+      font-style: italic;
+      font-size: 0.85rem;
+    }
+    
+    /* Animation for new blog posts */
+    .new-post {
+      position: absolute;
+      top: -15px;
+      right: -15px;
+      background-color: var(--primary-color);
+      color: white;
+      padding: 5px 10px;
+      border-radius: 15px;
+      font-size: 0.8rem;
+      font-weight: bold;
+      animation: pulse 2s infinite;
+      z-index: 10;
+      border: 2px solid var(--dark-color);
+      transform: rotate(15deg);
+      box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+    }
+    
+    @keyframes pulse {
+      0% { transform: scale(1) rotate(15deg); }
+      50% { transform: scale(1.1) rotate(15deg); }
+      100% { transform: scale(1) rotate(15deg); }
+    }
+    
+    /* Card footer section */
+    .card-footer {
+      background: none;
+      border-top: 2px dashed rgba(0,0,0,0.1);
+      padding-top: 10px;
+      margin-top: 10px;
+    }
+    
+    /* Empty state */
+    .empty-state {
+      text-align: center;
+      padding: 50px 0;
+      position: relative;
+    }
+    
+    .empty-state-glasses {
+      max-width: 100px;
+      margin: 0 auto 20px;
+      display: block;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 50'%3E%3Ccircle cx='30' cy='25' r='20' fill='none' stroke='%23293241' stroke-width='3'/%3E%3Ccircle cx='70' cy='25' r='20' fill='none' stroke='%23293241' stroke-width='3'/%3E%3Cpath d='M50,25 L65,25' stroke='%23293241' stroke-width='3'/%3E%3Cpath d='M5,25 L10,25' stroke='%23293241' stroke-width='3'/%3E%3Cpath d='M90,25 L95,25' stroke='%23293241' stroke-width='3'/%3E%3C/svg%3E");
+      height: 50px;
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+  </style>
+</head>
+<body class="p-2">
+  <%- include('./partials/nav') %>
+  
+  <!-- Cartoon characters in background -->
+  <div class="character character-1"></div>
+  <div class="character character-2"></div>
+  <div class="character character-3"></div>
+  <div class="character character-4"></div>
+  
+  <!-- Notebook background -->
+  <div class="notebook-bg"></div>
+  
+  <!-- Speech bubbles -->
+  <div class="speech-bubble speech-bubble-1">Great blogs here!</div>
+  <div class="speech-bubble speech-bubble-2">Can't wait to read more!</div>
+  
+  <div class="container-fluid mt-3">
+    <h1 class="page-header">
+      <div class="header-doodle doodle-1"></div>
+      My Blog Universe!
+      <div class="header-doodle doodle-2"></div>
+    </h1>
+    
+    <% if (blogs && blogs.length > 0) { %>
+      <div class="row">
+        <% blogs.forEach(blog => { %>
+          <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
+            <div class="card h-100">
+              <div class="card-inner">
+                <% if (new Date() - new Date(blog.createdAt) < 7*24*60*60*1000) { %>
+                  <div class="new-post">NEW!</div>
+                <% } %>
+                <div class="paper-clip"></div>
+                
+                <div class="card-img-container">
+                  <img src="<%= blog.coverImageURL %>"
+                       class="card-img-top"
+                       alt="<%= blog.title %>">
+                  <div class="card-img-caption">✓ Read</div>
+                </div>
+                
+                <div class="card-body">
+                  <h5 class="card-title"><%= blog.title %></h5>
+                  <p class="card-text"><%= blog.body.substring(0, 100) + "..." %></p>
+                  <p class="card-text">
+                    <small class="text-muted">
+                      <i class="bi bi-clock"></i> <%= moment(blog.createdAt).fromNow() %>
+                    </small>
+                  </p>
+                  
+                  <div class="tag-container">
+                    <% if (blog.category) { %>
+                      <span class="badge bg-primary">
+                        <%= blog.category %>
+                      </span>
+                    <% } %>
+                    
+                    <% if (blog.tags && blog.tags.length > 0) { %>
+                      <% blog.tags.forEach(tag => { %>
+                        <span class="badge bg-danger">
+                          #<%= tag %>
+                        </span>
+                      <% }) %>
+                    <% } %>
+                  </div>
+                  
+                  <div class="card-footer text-center">
+                    <a href="/blog/<%= blog._id %>" class="btn btn-primary">
+                      <i class="bi bi-book"></i> Read Story
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        <% }) %>
+      </div>
+    <% } else { %>
+      <div class="empty-state">
+        <div class="empty-state-glasses"></div>
+        <h3>No blog posts yet!</h3>
+        <p>Check back soon for awesome cartoon blog content</p>
+      </div>
+    <% } %>
+  </div>
+  
+  <%- include('./partials/script') %>
+  <!-- Bootstrap Bundle with Popper -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+  <!-- Bootstrap Icons -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css"></script>
+  
+  <script>
+    // Add random rotation to cards on load
+    document.addEventListener('DOMContentLoaded', function() {
+      const cards = document.querySelectorAll('.card');
+      cards.forEach(card => {
+        const randomRotation = (Math.random() * 4) - 2;
+        card.style.transform = `rotate(${randomRotation}deg)`;
+      });
+    });
+  </script>
+  
+  <%- include('./partials/footer') %>
+</body>
+</html>

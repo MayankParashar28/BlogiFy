@@ -1,0 +1,71 @@
+<%- include('./partials/header') %>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f8f9fa;
+            color: #333;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            overflow: hidden;
+        }
+        h1 {
+            font-size: 6rem;
+            margin: 0;
+            animation: fadeIn 1.5s ease-in-out;
+        }
+        p {
+            font-size: 1.5rem;
+            margin: 10px 0;
+            opacity: 0;
+            animation: fadeIn 2s ease-in-out 0.5s forwards;
+        }
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background 0.3s;
+            opacity: 0;
+            animation: fadeIn 2s ease-in-out 1s forwards;
+        }
+        a:hover {
+            background-color: #0056b3;
+        }
+        .floating-books {
+            position: absolute;
+            font-size: 3rem;
+            opacity: 0.2;
+            animation: float 5s infinite alternate ease-in-out;
+        }
+        .book1 { top: 10%; left: 20%; animation-delay: 0s; }
+        .book2 { top: 30%; left: 70%; animation-delay: 1s; }
+        .book3 { top: 60%; left: 40%; animation-delay: 2s; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes float {
+            from { transform: translateY(0px) rotate(0deg); }
+            to { transform: translateY(-15px) rotate(5deg); }
+        }
+    </style>
+</head>
+<body>
+    <h1>404</h1>
+    <h4>Oops! The page you're looking for doesn't exist.</h4>
+    <h4>Maybe it's lost in the world of words...</h4>
+    <a href="/">Back to Home</a>
+    
+    <!-- Floating Books Animation -->
+    <div class="floating-books book1">📖</div>
+    <div class="floating-books book2">📚</div>
+    <div class="floating-books book3">📜</div>
+</body>
+</html>

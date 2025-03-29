@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('./partials/header') %>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        .header {
+            text-align: center;
+            font-size: 24px;
+            margin: 20px 0;
+            color: #007bff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .header img {
+            padding: 5px;
+            border-radius: 50%;
+            margin-right: 10px;
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            box-shadow: 10px 12px 14px rgba(40, 10, 40, 0.1);
+            border: 1px solid #007bff;
+        }
+
+        .container {
+            width: 100%;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        #notifications {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        #notifications li {
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: #fff;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        #notifications li.read {
+            background-color: #e0e0e0;
+            opacity: 0.7;
+        }
+
+        #notifications li button {
+            padding: 5px 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        #notifications li button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+    <%- include('./partials/nav', { searchQuery: searchQuery || '' }) %>
+
+    <div class="header">
+        <h2> 🔔 Notifications </h2>
+        <img src="<%=user.profilePic  %>" alt="notification" width="100px" height="100px">
+    </div>
+
+    <div class="container">
+        <% if (notifications.length === 0) { %>
+            <p class="no-notifications">No new notifications.</p>
+        <% } else { %>
+            <ul id="notifications">
+                <% notifications.forEach(notification => { %>
+                    <li id="notif-<%= notification._id %>" class="<%= notification.read ? 'read' : '' %>">
+                        <div class="notif-message">
+                            <img src="<%= (notification.senderId && notification.senderId.profilePic) ? notification.senderId.profilePic : '/images/default-user.png' %>"
+                                alt="Profile" width="40" height="40">
+                            <strong>
+                                <%= notification.message %>
+                            </strong>
+                            <small>(<%= new Date(notification.createdAt).toLocaleString() %>)</small>
+                        </div>
+                        <% if (!notification.read) { %>
+                            <button class="mark-read-btn" data-id="<%= notification._id %>">Mark as Read</button>
+                        <% } %>
+                    </li>
+                <% }) %>
+            </ul>
+        <% } %>
+    </div>
+    <%- include('./partials/footer') %>
+
+    <script>
+        // Function to mark notification as read
+        async function markAsRead(notificationId) {
+            try {
+                const response = await fetch(`/notifications/mark-read/${notificationId}`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" }
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    const notifElement = document.getElementById(`notif-${notificationId}`);
+                    if (notifElement) {
+                        notifElement.classList.add("read");
+                        const button = notifElement.querySelector(".mark-read-btn");
+                        if (button) button.remove(); // Hide the button after marking as read
+                    }
+
+                    // Update notification count badge
+                    const notifCount = document.getElementById("notification-count");
+                    if (notifCount) notifCount.textContent = data.count;
+                } else {
+                    alert("Failed to mark notification as read.");
+                }
+            } catch (error) {
+                console.error("❌ Error marking notification as read:", error);
+            }
+        }
+
+        // Attach event listeners to buttons
+        document.addEventListener("DOMContentLoaded", () => {
+            document.querySelectorAll(".mark-read-btn").forEach(button => {
+                button.addEventListener("click", function () {
+                    const notificationId = this.getAttribute("data-id");
+                    markAsRead(notificationId);
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

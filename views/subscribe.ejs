@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('./partials/header') %>
+        <style>
+            .profile-pic {
+                width: 100px;
+                height: 100px;
+                margin: 20px auto;
+                box-shadow: 2px 2px 5px #000;
+                object-fit: cover;
+            }
+
+            .profile-pic:hover {
+
+
+                box-shadow: 2px 2px 5px #000;
+                cursor: pointer;
+                animation: rotate 5s linear infinite;
+
+            }
+
+            @keyframes rotate {
+                from {
+                    transform: rotate(0deg);
+                }
+
+                to {
+                    transform: rotate(360deg);
+                }
+            }
+        </style>
+</head>
+
+<body>
+    <%- include('./partials/nav', { searchQuery: searchQuery || "" }) %>
+    <div class="container border border-2 p-4 mt-4 rounded-3 shadow">
+        
+        <div class="text-center text-dark fw-bold">
+            <h3>Subscribe to AI Access</h3> to generate blog content with AI.
+        </div>
+
+        <div class="text-center mt-2">
+            <% if (user) { %>
+                <img src="<%= user.profilePic %>" alt="avatar" class="rounded-circle profile-pic" id="profilePic">
+                <h5><strong>Name:</strong>
+                    <%= user.fullName %>
+                </h5>
+                <h5><strong>Email:</strong>
+                    <%= user.email %>
+                </h5>
+                <% } else { %>
+                    <h5 class="text-xl mt-3"><strong>Please <a href="/user/signin"><i>log in</i></a> to continue.</strong></h5>
+                    <% } %>
+
+        </div>
+
+        <div class="text-center mt-1">
+            <% if (user) { %>
+                <form action="/subscription/create-checkout-session" method="POST">
+                    <input type="hidden" name="email" value="<%= user.email %>">
+                    <input type="hidden" name="name" value="<%= user.fullName %>">
+                    <button type="submit" class="btn btn-success m-3">Subscribe for $2.99/month</button>
+                    <a href="/" class="btn btn-secondary">Cancel</a>
+                </form>
+                <% } %>
+        </div>
+
+
+    </div>
+    <script>
+        document.getElementById("ai-access-btn").addEventListener("click", async () => {
+            const response = await fetch("/subscribe");
+            const data = await response.json();
+            if (data.url) {
+                window.location.href = data.url; // Redirect to Stripe Checkout
+            } else {
+                alert("Error: Unable to create subscription.");
+            }
+        });
+    </script>
+    <%- include('./partials/footer') %>
+</body>
+
+</html>

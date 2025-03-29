@@ -1,0 +1,371 @@
+
+<head>
+  <%- include('./partials/header') %>
+  <title>Write Your Blog</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+
+<style>
+  body {
+    background-color: #f9f7f2;
+    background-image: url('/api/placeholder/1920/1080');
+    background-size: cover;
+    background-attachment: fixed;
+    position: relative;
+    font-family: 'Comic Sans MS', 'Marker Felt', sans-serif;
+  }
+
+  /* Cartoon overlay elements */
+  body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+      url('/api/placeholder/200/200') no-repeat top left / 200px,  /* Cartoon character */
+      url('/api/placeholder/150/150') no-repeat bottom right / 150px, /* Pencil icon */
+      url('/api/placeholder/100/100') no-repeat top right / 100px; /* Thought bubble */
+    opacity: 0.2;
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  .big-container {
+    background-color: rgba(255, 255, 255, 0.95);
+    border: 3px solid #3a86ff !important;
+    border-radius: 15px !important;
+    box-shadow: 8px 8px 0px #3a86ff !important;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .big-container::before {
+    content: "";
+    position: absolute;
+    top: -30px;
+    right: -30px;
+    width: 150px;
+    height: 150px;
+    background: url('/api/placeholder/150/150') no-repeat;
+    background-size: contain;
+    opacity: 0.2;
+    transform: rotate(15deg);
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  textarea, input.form-control {
+    background-color: #fffdf7 !important;
+    border: 2px dashed #ff9e00 !important;
+    border-radius: 10px !important;
+    font-size: 16px;
+    padding: 12px !important;
+    box-shadow: 3px 3px 0px #ffca3a;
+    font-family: 'Comic Sans MS', 'Marker Felt', sans-serif;
+  }
+
+  textarea {
+    width: 100%;
+    min-height: 150px;
+    resize: none;
+    overflow-y: hidden;
+    text-align: left;
+  }
+
+  textarea:focus, input.form-control:focus {
+    border-color: #3a86ff !important;
+    box-shadow: 3px 3px 0px #3a86ff;
+  }
+
+  label.form-label {
+    font-weight: bold;
+    color: #3a86ff;
+    font-size: 18px;
+    position: relative;
+    padding-left: 28px;
+  }
+
+  label.form-label::before {
+    content: "✏️";
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+
+  .btn-primary {
+    background-color: #3a86ff;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 25px;
+    font-weight: bold;
+    box-shadow: 4px 4px 0px #1a56a0;
+    transition: all 0.2s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .btn-primary:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0px #1a56a0;
+  }
+
+  .btn-primary:active {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0px #1a56a0;
+  }
+
+  .btn-primary::after {
+    content: "✨";
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .category-card {
+    background-color: white;
+    border: 2px solid #8ecae6 !important;
+    border-radius: 10px !important;
+    transition: all 0.2s ease;
+    font-weight: bold;
+    padding: 12px 10px !important;
+    margin-bottom: 10px;
+    box-shadow: 3px 3px 0px #8ecae6;
+  }
+
+  .category-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 3px 6px 0px #8ecae6;
+  }
+
+  input[type="radio"]:checked + .category-card {
+    background-color: #8ecae6 !important;
+    color: white !important;
+    border-color: #3a86ff !important;
+    box-shadow: 3px 3px 0px #3a86ff;
+  }
+
+  input[type="file"] {
+    background-color: #fffdf7 !important;
+    border: 2px dashed #ff9e00 !important;
+    border-radius: 10px !important;
+    font-size: 16px;
+    padding: 10px !important;
+    box-shadow: 3px 3px 0px #ffca3a;
+  }
+
+  .form-section-title {
+    position: relative;
+    margin-bottom: 20px;
+    color: #ff6b6b;
+    font-weight: bold;
+    text-align: center;
+    font-size: 24px;
+    text-shadow: 1px 1px 0px #ff8fab;
+  }
+
+  .form-section-title::after {
+    content: "";
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 3px;
+    background-color: #ff8fab;
+    border-radius: 5px;
+  }
+
+  #word-count {
+    font-weight: bold;
+    color: #3a86ff;
+  }
+
+  /* Add speech bubble for word count */
+  .word-count-bubble {
+    position: relative;
+    display: inline-block;
+    background-color: #fff;
+    padding: 8px 15px;
+    border-radius: 20px;
+    border: 2px solid #3a86ff;
+    margin-left: 10px;
+    box-shadow: 3px 3px 0 #ffca3a;
+  }
+
+  .word-count-bubble::before {
+    content: "";
+    position: absolute;
+    left: -10px;
+    top: 50%;
+    transform: translateY(-50%);
+    border-width: 10px 10px 10px 0;
+    border-style: solid;
+    border-color: transparent #3a86ff transparent transparent;
+  }
+  
+  /* Section dividers with cartoon elements */
+  .section-divider {
+    display: flex;
+    align-items: center;
+    margin: 25px 0;
+  }
+  
+  .section-divider::before, .section-divider::after {
+    content: "";
+    flex: 1;
+    height: 2px;
+    background-color: #ffca3a;
+  }
+  
+  .section-divider i {
+    padding: 0 15px;
+    color: #ff9e00;
+    font-size: 24px;
+  }
+</style>
+
+<body class="p-2">
+  <%- include('./partials/nav', { searchQuery: searchQuery || "" }) %>
+
+  <div class="container mt-5">
+    <h1 class="form-section-title">Create Your Amazing Blog Post!</h1>
+    
+    <div class="big-container justify-content-center align-items-center m-2 mt-4 p-4 gap-4 border rounded-3 shadow">
+      <form method="post" action="/blog" enctype="multipart/form-data">
+        
+        <div class="mb-4 p-2">
+          <label for="coverImage" class="form-label">Cover Image</label>
+          <input type="file" class="form-control" id="coverImage" name="coverImage" aria-describedby="coverImage" accept="image/*" required>
+          <small class="text-muted">Choose an eye-catching image for your blog!</small>
+        </div>
+        
+        <div class="section-divider">
+          <i class="fas fa-pencil-alt"></i>
+        </div>
+        
+        <div class="mb-4 p-2">
+          <label for="title" class="form-label">Title</label>
+          <input type="text" class="form-control text-black" 
+              name="title" id="title" 
+              aria-describedby="title" 
+              placeholder="Enter your brilliant title here..." 
+              required>
+        </div>
+        
+        <div class="section-divider">
+          <i class="fas fa-book-open"></i>
+        </div>
+        
+        <div class="mb-4 p-2">
+          <label for="body" class="form-label">Your Story</label>
+          <div class="form-floating position-relative">
+              <textarea class="form-control text-black pb-2" 
+                  name="body" id="body"
+                  style="min-height: 150px; max-height: 400px;" 
+                  required oninput="handleInput(this)" placeholder="Unleash your creativity here (max 600 words)"></textarea>
+                  <small class="text-muted">Unleash your creativity here </small>
+
+          </div>
+          <div class="d-flex justify-content-end mt-2">
+            <div class="word-count-bubble">
+              <i class="fas fa-pen-fancy me-2"></i>Words: <span id="word-count">0 / 600</span>
+            </div>
+          </div>
+        </div>
+      
+        <div class="section-divider">
+          <i class="fas fa-tags"></i>
+        </div>
+        
+        <!-- categories section -->
+        <div class="category-selector mb-4 p-3">
+          <label class="form-label">Select Category</label>
+          <div class="row g-3">
+            <% const categories=[ { name: 'Technology' , icon: 'microchip' }, { name: 'Health' , icon: 'heartbeat' }, {
+              name: 'Education' , icon: 'graduation-cap' }, { name: 'Business' , icon: 'briefcase' }, {
+              name: 'Lifestyle' , icon: 'spa' }, { name: 'Travel' , icon: 'plane-departure' }, { name: 'Food' ,
+              icon: 'utensils' }, { name: 'Finance' , icon: 'chart-line' }, { name: 'Science' , icon: 'flask' }, {
+              name: 'Entertainment' , icon: 'film' } ]; %>
+              <% categories.forEach(category=> { %>
+                <div class="col-6 col-md-4 col-lg-3">
+                  <input type="radio" class="btn-check" name="category" id="<%= category.name %>"
+                    value="<%= category.name %>" autocomplete="off" required>
+                  <label class="btn category-card" for="<%= category.name %>">
+                    <i class="fas fa-<%= category.icon %> me-2"></i>
+                    <%= category.name %>
+                  </label>
+                </div>
+              <% }); %>
+          </div>
+        </div>
+      
+        <div class="section-divider">
+          <i class="fas fa-hashtag"></i>
+        </div>
+        
+        <!-- tags section -->
+        <div class="mb-4 p-3">
+          <label for="tags" class="form-label">Tags</label>
+          <input type="text" class="form-control text-black" name="tags" id="tags"
+            placeholder="e.g., AI, Machine Learning, Health (comma-separated)" autocomplete="off" list="tagsList" required>
+          <datalist id="tagsList">
+            <option>Ai</option>
+            <option>Health</option>
+            <option>Education</option>
+            <option>Business</option>
+            <option>Lifestyle</option>
+            <option>Travel</option>
+            <option>Food</option>
+            <option>Finance</option>
+            <option>Science</option>
+            <option>Entertainment</option>
+            <option>Technology</option>
+            <option>Hardware</option>  
+            <option>Machine Learning</option>
+            <option>Deep Learning</option>
+            <option>Artificial Intelligence</option>
+            <option>Python</option>
+          </datalist>
+        </div>
+      
+        <div class="p-3 text-center">
+          <button type="submit" class="btn btn-primary btn-lg px-5">Publish Your Blog!</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <%- include('./partials/script') %>
+  <%- include('./partials/footer') %>
+  
+  <script> // For word count
+  function handleInput(textarea) {
+      // Ensure text starts from the left
+      textarea.style.textAlign = "left";
+      textarea.style.direction = "ltr";
+      
+      // Auto-resize
+      textarea.style.height = "auto";
+      textarea.style.height = (textarea.scrollHeight) + "px";
+  
+      // Count words
+      let words = textarea.value.trim().split(/\s+/).filter(word => word.length > 0);
+      let wordCount = words.length;
+  
+      // Display word count
+      document.getElementById("word-count").innerText = `${wordCount} / 600`;
+  
+      // Restrict to 600 words
+      if (wordCount > 600) {
+          alert("You've reached the 600-word limit! Time to wrap up your thoughts.");
+          textarea.value = words.slice(0, 600).join(" ");
+          textarea.style.height = textarea.scrollHeight + "px";
+      }
+  }
+  </script>
+  
+</body>
+</html>

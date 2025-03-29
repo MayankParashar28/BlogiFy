@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('./partials/header') %>
+    <title>Home - Blogify</title>
+    <style>
+        /* Root Variables */
+        :root {
+            --primary: #ff6b6b;
+            --secondary: #4ecdc4;
+            --accent: #45b7d1;
+            --dark: #2d3436;
+            --light: #f8f9fa;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden;
+            background-color: transparent;
+        }
+
+        /* Background Cartoon Elements */
+        .cartoon-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+            opacity: 0.4;
+        }
+
+        .cartoon-element {
+            position: absolute;
+            border-radius: 20px;
+        }
+
+        /* Pencil */
+        .pencil {
+            width: 10px;
+            height: 120px;
+            background: linear-gradient(to bottom, #FFC107, #FFE082);
+            transform: rotate(-20deg);
+            top: 15%;
+            left: 10%;
+        }
+
+        .pencil:before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-bottom: 15px solid #E65100;
+        }
+
+        .pencil:after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 0;
+            width: 10px;
+            height: 15px;
+            background: #F5F5F5;
+            border-radius: 0 0 5px 5px;
+        }
+
+        /* Notebook */
+        .notebook {
+            width: 80px;
+            height: 100px;
+            background: #FFFFFF;
+            border-radius: 3px;
+            box-shadow: 3px 3px 10px rgba(0,0,0,0.1);
+            bottom: 20%;
+            right: 15%;
+            transform: rotate(15deg);
+        }
+
+        .notebook:before {
+            content: '';
+            position: absolute;
+            left: -5px;
+            top: 10px;
+            height: 80px;
+            width: 15px;
+            background: var(--primary);
+            border-radius: 3px 0 0 3px;
+        }
+
+        .notebook:after {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: 50px;
+            height: 2px;
+            background: #E0E0E0;
+            box-shadow: 0 10px 0 #E0E0E0, 0 20px 0 #E0E0E0, 0 30px 0 #E0E0E0, 0 40px 0 #E0E0E0;
+        }
+
+        /* Coffee Mug */
+        .coffee-mug {
+            width: 40px;
+            height: 50px;
+            background: var(--accent);
+            border-radius: 0 0 20px 20px;
+            top: 30%;
+            right: 20%;
+        }
+
+        .coffee-mug:before {
+            content: '';
+            position: absolute;
+            right: -15px;
+            top: 10px;
+            width: 20px;
+            height: 25px;
+            border: 5px solid var(--accent);
+            border-radius: 0 20px 20px 0;
+            border-left: none;
+        }
+
+        .coffee-mug:after {
+            content: '';
+            position: absolute;
+            top: 5px;
+            left: 10px;
+            width: 20px;
+            height: 10px;
+            background: #FFF;
+            border-radius: 10px;
+            opacity: 0.3;
+        }
+
+        /* Light Bulb */
+        .light-bulb {
+            width: 40px;
+            height: 60px;
+            background: #FFC107;
+            border-radius: 50% 50% 5px 5px;
+            bottom: 25%;
+            left: 18%;
+        }
+
+        .light-bulb:before {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 10px;
+            width: 20px;
+            height: 10px;
+            background: #9E9E9E;
+            border-radius: 5px;
+        }
+
+        .light-bulb:after {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            width: 20px;
+            height: 20px;
+            background: #FFECB3;
+            border-radius: 50%;
+            opacity: 0.7;
+        }
+
+        /* Paper Clip */
+        .paper-clip {
+            width: 30px;
+            height: 60px;
+            border: 5px solid #9E9E9E;
+            border-radius: 15px 15px 0 0;
+            border-bottom: none;
+            top: 60%;
+            left: 25%;
+            transform: rotate(-20deg);
+        }
+
+        .paper-clip:before {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 40px;
+            border: 5px solid #9E9E9E;
+            border-radius: 10px 10px 0 0;
+            border-bottom: none;
+            left: -5px;
+            top: 15px;
+        }
+
+        /* Flying Papers */
+        .flying-paper {
+            width: 50px;
+            height: 70px;
+            background: white;
+            border-radius: 5px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            top: 40%;
+            left: 70%;
+            transform: rotate(10deg);
+        }
+
+        .flying-paper:before {
+            content: '';
+            position: absolute;
+            top: 15px;
+            left: 10px;
+            width: 30px;
+            height: 2px;
+            background: #E0E0E0;
+            box-shadow: 0 8px 0 #E0E0E0, 0 16px 0 #E0E0E0, 0 24px 0 #E0E0E0;
+        }
+
+        /* Hero Section with Cartoon Elements */
+        .hero-section {
+            height: 90vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            color: var(--dark);
+            padding: 2rem;
+            max-width: 800px;
+            animation: fadeInUp 1s ease;
+        }
+
+        .hero-title {
+            font-size: 4.5rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(45deg, var(--primary), var(--secondary), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-size: 200% 200%;
+            animation: gradientShift 5s ease infinite;
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            animation: fadeInUp 1s ease 0.3s both;
+        }
+
+        .hero-btn {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: white;
+            font-size: 1.2rem;
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            border: none;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            animation: pulse 2s infinite;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        /* TRENDING BLOGS SECTION - Now with distinct style */
+        .trending-section {
+            padding: 5rem 0;
+            background: #ffffff;
+            position: relative;
+            border-radius: 30px 30px 0 0;
+            margin-top: -30px;
+            box-shadow: 0 -10px 30px rgba(0,0,0,0.05);
+        }
+
+        .trending-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .trending-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            display: inline-block;
+            padding-bottom: 0.5rem;
+            position: relative;
+            color: var(--primary);
+        }
+
+        .trending-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 25%;
+            width: 50%;
+            height: 4px;
+            background: var(--primary);
+            border-radius: 2px;
+        }
+
+        .trending-wrapper {
+            position: relative;
+        }
+
+        .trending-wrapper:before {
+            content: "HOT";
+            position: absolute;
+            top: -15px;
+            right: 20px;
+            background: var(--primary);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.8rem;
+            z-index: 10;
+        }
+
+        .trending-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            position: relative;
+            border-left: 5px solid var(--primary);
+            display: flex;
+            align-items: center;
+        }
+
+        .trending-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+
+        .trending-rank {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-right: 2rem;
+            position: relative;
+            line-height: 1;
+        }
+
+        .trending-content {
+            flex: 1;
+        }
+
+        .trending-title-link {
+            color: var(--dark);
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            display: block;
+            transition: color 0.3s ease;
+        }
+
+        .trending-title-link:hover {
+            color: var(--primary);
+        }
+
+        .trending-meta {
+            display: flex;
+            align-items: center;
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+
+        .trending-author, .trending-views {
+            display: flex;
+            align-items: center;
+            margin-right: 1.5rem;
+        }
+
+        .trending-author i, .trending-views i {
+            margin-right: 0.5rem;
+            color: var(--primary);
+        }
+
+        /* FEATURED BLOGS SECTION - Now with completely different style */
+        .featured-section {
+            padding: 5rem 0;
+            background: linear-gradient(135deg, #f5f7fa 0%, #eef1f5 100%);
+            position: relative;
+        }
+
+        .featured-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .featured-section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            display: inline-block;
+            padding-bottom: 0.5rem;
+            position: relative;
+            color: var(--secondary);
+        }
+
+        .featured-section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 25%;
+            width: 50%;
+            height: 4px;
+            background: var(--secondary);
+            border-radius: 2px;
+        }
+
+        .featured-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .featured-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .featured-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+
+        .featured-card:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 0 50px 50px 0;
+            border-color: transparent var(--secondary) transparent transparent;
+            z-index: 2;
+        }
+
+        .featured-card:after {
+            content: '★';
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            color: white;
+            font-size: 1.2rem;
+            z-index: 3;
+        }
+
+        .featured-img {
+            height: 200px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .featured-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .featured-card:hover .featured-img img {
+            transform: scale(1.1);
+        }
+
+        .featured-content {
+            padding: 2rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .featured-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+
+        .featured-meta {
+            display: flex;
+            align-items: center;
+            font-size: 0.9rem;
+            color: #6c757d;
+            margin-bottom: 1.5rem;
+        }
+
+        .featured-author, .featured-views {
+            display: flex;
+            align-items: center;
+            margin-right: 1.5rem;
+        }
+
+        .featured-author i, .featured-views i {
+            margin-right: 0.5rem;
+            color: var(--secondary);
+        }
+
+        .featured-excerpt {
+            color: #6c757d;
+            margin-bottom: 1.5rem;
+            flex: 1;
+            line-height: 1.6;
+        }
+
+        .featured-link {
+            align-self: flex-start;
+            background: var(--secondary);
+            color: white;
+            padding: 0.7rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(78, 205, 196, 0.3);
+        }
+
+        .featured-link:hover {
+            background: var(--dark);
+            transform: translateX(5px);
+            box-shadow: 0 5px 20px rgba(45, 52, 54, 0.3);
+        }
+
+        /* Categories Section */
+        .categories-section {
+            padding: 5rem 0;
+            background: white;
+            position: relative;
+        }
+
+        .categories-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 2rem;
+            padding: 2rem 0;
+        }
+
+        .category-card {
+            padding: 2.5rem 2rem;
+            text-align: center;
+            border-radius: 16px;
+            background: white;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .category-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .category-card:hover {
+            transform: translateY(-10px) scale(1.03);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+
+        .category-card:hover::before {
+            opacity: 1;
+        }
+
+        .category-card i {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            color: var(--secondary);
+            transition: all 0.3s ease;
+        }
+
+        .category-card:hover i,
+        .category-card:hover h4 {
+            color: white;
+        }
+
+        .category-card h4 {
+            transition: all 0.3s ease;
+        }
+
+        /* Newsletter Section */
+        .newsletter-section {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            color: white;
+            padding: 5rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .newsletter-content {
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .newsletter-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .newsletter-input {
+            max-width: 500px;
+            margin: 2rem auto 0;
+            position: relative;
+        }
+
+        .newsletter-field {
+            width: 100%;
+            padding: 1.2rem 1.5rem;
+            border-radius: 50px;
+            border: none;
+            font-size: 1rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .newsletter-btn {
+            position: absolute;
+            right: 5px;
+            top: 5px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 0.8rem 1.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .newsletter-btn:hover {
+            transform: translateX(3px);
+            background: linear-gradient(45deg, var(--secondary), var(--primary));
+        }
+
+        /* Animations */
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(255, 107, 107, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(255, 107, 107, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 107, 107, 0); }
+        }
+
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .scroll-reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Animate cartoon elements */
+        .cartoon-element {
+            animation: float 6s infinite ease-in-out;
+        }
+
+        .pencil {
+            animation-delay: 0s;
+        }
+
+        .notebook {
+            animation-delay: 1s;
+        }
+
+        .coffee-mug {
+            animation-delay: 2s;
+        }
+
+        .light-bulb {
+            animation-delay: 1.5s;
+        }
+
+        .paper-clip {
+            animation-delay: 0.5s;
+        }
+
+        .flying-paper {
+            animation-delay: 2.5s;
+        }
+    </style>
+</head>
+<body>
+
+    <%- include('./partials/nav') %>
+
+    <!-- Cartoon Background Elements using DIVs -->
+    <div class="cartoon-bg">
+        <div class="cartoon-element pencil"></div>
+        <div class="cartoon-element notebook"></div>
+        <div class="cartoon-element coffee-mug"></div>
+        <div class="cartoon-element light-bulb"></div>
+        <div class="cartoon-element paper-clip"></div>
+        <div class="cartoon-element flying-paper"></div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-content">
+            <h1 class="hero-title">Explore Limitless Stories</h1>
+            <p class="hero-subtitle">Discover amazing content, share your thoughts, and connect with passionate writers.</p>
+            <a href="#trending" class="btn hero-btn">Start Exploring</a>
+        </div>
+    </section>
+
+    <!-- Trending Blogs - Complete redesign -->
+    <section id="trending" class="trending-section scroll-reveal">
+        <div class="container">
+            <div class="trending-header">
+                <h2 class="trending-title">🔥 Trending This Week</h2>
+            </div>
+            <div class="trending-wrapper">
+                <div class="row">
+                    <% trendingBlogs.forEach((blog, index) => { %>
+                        <div class="col-lg-12">
+                            <div class="trending-card" style="animation-delay: <%= index * 0.1 %>s">
+                                <div class="trending-rank">#<%= index + 1 %></div>
+                                <div class="trending-content">
+                                    <a href="/blog/<%= blog._id %>" class="trending-title-link"><%= blog.title %></a>
+                                    <div class="trending-meta">
+                                        <div class="trending-author">
+                                            <i class="bi bi-person-fill"></i>
+                                            <span><%= blog.createdBy.fullName %></span>
+                                        </div>
+                                        <div class="trending-views">
+                                            <i class="bi bi-eye-fill"></i>
+                                            <span><%= blog.views %> views</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <% }); %>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Blogs Grid - Completely different style -->
+    <section class="featured-section scroll-reveal">
+        <div class="container">
+            <div class="featured-header">
+                <h2 class="featured-section-title">🌟 Featured Stories</h2>
+            </div>
+            <div class="featured-grid">
+                <% if (featuredBlogs.length > 0) { %>
+                    <% featuredBlogs.forEach((blog, index) => { %>
+                        <div class="featured-card" style="animation-delay: <%= index * 0.1 %>s">
+                            <div class="featured-img">
+                                <img src="<%= blog.coverImageURL %>" alt="Featured Image" />
+                            </div>
+                            <div class="featured-content">
+                                <h3 class="featured-title"><%= blog.title %></h3>
+                                <div class="featured-meta">
+                                    <div class="featured-author">
+                                        <i class="bi bi-person-fill"></i>
+                                        <span><%= blog.createdBy.fullName %></span>
+                                    </div>
+                                    <div class="featured-views">
+                                        <i class="bi bi-eye-fill"></i>
+                                        <span><%= blog.views %> views</span>
+                                    </div>
+                                </div>
+                                <p class="featured-excerpt">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, velit vel bibendum sagittis, urna libero fermentum nunc, id aliquam magna justo vel purus.</p>
+                                <a href="/blog/<%= blog._id %>" class="featured-link">Read More</a>
+                            </div>
+                        </div>
+                    <% }); %>
+                <% } else { %>
+                    <p class="text-center">No featured blogs available.</p>
+                <% } %>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Categories Grid -->
+    <section class="categories-section scroll-reveal">
+        <div class="container">
+            <div class="categories-header">
+                <h2 class="trending-title">📚 Popular Categories</h2>
+            </div>
+            <div class="categories-grid">
+                <div class="category-card">
+                    <i class="bi bi-code-square"></i>
+                    <h4>Technology</h4>
+                </div>
+                <div class="category-card">
+                    <i class="bi bi-briefcase"></i>
+                    <h4>Business</h4>
+                </div>
+                <div class="category-card">
+                    <i class="bi bi-heart"></i>
+                    <h4>Lifestyle</h4>
+                </div>
+                <div class="category-card">
+                    <i class="bi bi-globe"></i>
+                    <h4>Travel</h4>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter Section -->
+    <section class="newsletter-section scroll-reveal">
+        <div class="container">
+            <div class="newsletter-content">
+                <h2 class="newsletter-title">📬 Stay Updated</h2>
+                <p class="mb-4">Subscribe to our newsletter for weekly curated content</p>
+                <div class="newsletter-input">
+                    <input type="email" class="newsletter-field" placeholder="Enter your email">
+                    <button class="newsletter-btn">Subscribe</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <%- include('./partials/footer') %>
+
+    <script> 
+        // Scroll Reveal Animation
+        const scrollReveal = document.querySelectorAll('.scroll-reveal');
+        
+        const revealOnScroll = () => {
+            scrollReveal.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const windowHeight = window.innerHeight;
+                
+                if (elementTop < windowHeight * 0.8) {
+                    element.classList.add('active');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', revealOnScroll);
+        window.addEventListener('load', revealOnScroll);
+
+        // Add 3D tilt effect to cards
+        const cards = document.querySelectorAll('.trending-card, .featured-card, .category-card');
+        cards.forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const xc = (x - rect.width / 2) / 20;
+                const yc = (y - rect.height / 2) / 20;
+                
+                card.style.transform = `perspective(1000px) rotateX(${-yc}deg) rotateY(${xc}deg) scale3d(1.03, 1.03, 1.03)`;
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = '';
+            });
+        });
+
+        // Animate cartoon elements randomly
+        function animateCartoonElements() {
+            const cartoonElements = document.querySelectorAll('.cartoon-element');
+            
+            cartoonElements.forEach(element => {
+                const randomX = (Math.random() - 0.5) * 20;
+                const randomY = (Math.random() - 0.5) * 20;
+                const randomRotate = (Math.random() - 0.5) * 10;
+                
+                element.style.transform = `translate(${randomX}px, ${randomY}px) rotate(${randomRotate}deg)`;
+            });
+        }
+        
+        // Run animation on scroll
+        window.addEventListener('scroll', () => {
+            requestAnimationFrame(animateCartoonElements);
+        });
+        
+        // Initial animation
+        animateCartoonElements();
+    </script>
+</body>
+</html>

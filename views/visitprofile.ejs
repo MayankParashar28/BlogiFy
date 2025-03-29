@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= user.fullName %>'s Cartoon Blog</title>
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Bubblegum+Sans&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #FF6B6B;
+            --secondary: #4ECDC4;
+            --accent: #FFD166;
+            --dark: #2A2D34;
+            --light: #F7FFF7;
+            --shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Comic Neue', cursive;
+            background-color: #f9f4ff;
+            color: var(--dark);
+            line-height: 1.6;
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3zm-56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3zm12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23bda5e3' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E");
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 20px;
+        }
+        
+        .profile-card {
+            background-color: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: var(--shadow);
+            margin-bottom: 30px;
+            border: 3px solid var(--primary);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .profile-card::before {
+            content: "";
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            width: 120px;
+            height: 120px;
+            background-color: var(--accent);
+            border-radius: 50%;
+            z-index: 0;
+            opacity: 0.5;
+        }
+        
+        .profile-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .profile-img-container {
+            position: relative;
+            margin-bottom: 20px;
+        }
+        
+        .profile-img {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 5px solid var(--primary);
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease;
+        }
+        
+        .profile-img:hover {
+            transform: scale(1.05);
+        }
+        
+        .profile-name {
+            font-family: 'Bubblegum Sans', cursive;
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 0px rgba(0,0,0,0.1);
+        }
+        
+        .profile-joined {
+            font-size: 0.9rem;
+            color: #888;
+            margin-bottom: 15px;
+        }
+        
+        .speech-bubble {
+            position: relative;
+            background-color: #f8f8f8;
+            border-radius: 15px;
+            padding: 15px 20px;
+            margin: 20px 0;
+            box-shadow: var(--shadow);
+            border: 2px solid var(--secondary);
+        }
+        
+        .speech-bubble::after {
+            content: '';
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 0 15px 15px;
+            border-style: solid;
+            border-color: var(--secondary) transparent;
+        }
+        
+        .section-title {
+            font-family: 'Bubblegum Sans', cursive;
+            font-size: 1.8rem;
+            color: var(--secondary);
+            margin: 25px 0 15px;
+            text-shadow: 1px 1px 0px rgba(0,0,0,0.1);
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title::after {
+            content: "";
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: var(--accent);
+            border-radius: 3px;
+        }
+        
+        .profile-info p {
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+        
+        .profile-info strong {
+            color: var(--dark);
+            font-weight: 700;
+        }
+        
+        .social-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 15px 0;
+        }
+        
+        .social-btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 8px 15px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow);
+            border: 2px solid transparent;
+        }
+        
+        .social-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+        
+        .btn-linkedin {
+            background-color: #0077B5;
+            color: white;
+            border-color: #0077B5;
+        }
+        
+        .btn-twitter {
+            background-color: #1DA1F2;
+            color: white;
+            border-color: #1DA1F2;
+        }
+        
+        .btn-github {
+            background-color: #333;
+            color: white;
+            border-color: #333;
+        }
+        
+        .btn-instagram {
+            background-color: #E1306C;
+            color: white;
+            border-color: #E1306C;
+        }
+        
+        .blog-count {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+        
+        .blog-list {
+            list-style: none;
+        }
+        
+        .blog-item {
+            background-color: white;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            padding: 15px;
+            box-shadow: var(--shadow);
+            border-left: 5px solid var(--accent);
+            transition: transform 0.2s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .blog-item:hover {
+            transform: translateX(5px);
+        }
+        
+        .blog-link {
+            color: var(--dark);
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+        
+        .blog-link:hover {
+            color: var(--primary);
+        }
+        
+        .blog-date {
+            color: #888;
+            font-size: 0.9rem;
+        }
+        
+        .empty-blogs {
+            text-align: center;
+            padding: 20px;
+            background-color: #f8f8f8;
+            border-radius: 12px;
+            color: #888;
+        }
+        
+        .divider {
+            height: 3px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            border-radius: 3px;
+            margin: 25px 0;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+                margin: 15px auto;
+            }
+            
+            .profile-card {
+                padding: 20px;
+            }
+            
+            .profile-img {
+                width: 120px;
+                height: 120px;
+            }
+            
+            .profile-name {
+                font-size: 2rem;
+            }
+            
+            .section-title {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="profile-card">
+            <div class="profile-header">
+                <div class="profile-img-container">
+                    <img src="<%= user.profilePic %>" alt="Profile Picture" class="profile-img">
+                </div>
+                <h1 class="profile-name"><%= user.fullName %></h1>
+                <p class="profile-joined">Joined: <%= new Date(user.createdAt).toDateString() %></p>
+            </div>
+            
+            <div class="speech-bubble">
+                <div class="profile-info">
+                    <p><strong>Bio:</strong> <% if (user.bio) { %><%= user.bio %><% } else { %>No bio available<% } %></p>
+                    <p><strong>Contact me:</strong> <% if (user.email) { %><%= user.email %><% } else { %>No contact information<% } %></p>
+                </div>
+            </div>
+            
+            <div class="divider"></div>
+            
+            <h2 class="section-title">Social Links</h2>
+            <div class="social-links">
+                <% if (user.socials.linkedin) { %>
+                    <a href="<%= user.socials.linkedin %>" target="_blank" class="social-btn btn-linkedin">LinkedIn</a>
+                <% } %>
+                <% if (user.socials.twitter) { %>
+                    <a href="<%= user.socials.twitter %>" target="_blank" class="social-btn btn-twitter">Twitter</a>
+                <% } %>
+                <% if (user.socials.github) { %>
+                    <a href="<%= user.socials.github %>" target="_blank" class="social-btn btn-github">GitHub</a>
+                <% } %>
+                <% if (user.socials.instagram) { %>
+                    <a href="<%= user.socials.instagram %>" target="_blank" class="social-btn btn-instagram">Instagram</a>
+                <% } %>
+            </div>
+            
+            <div class="divider"></div>
+            
+            <h2 class="section-title">My Blog Posts</h2>
+            <p class="blog-count"><%= blogs.length %> blog<%= blogs.length === 1 ? "" : "s" %> written</p>
+            
+            <% if (blogs.length === 0) { %>
+                <div class="empty-blogs">No blogs written yet. Start creating your cartoon adventures!</div>
+            <% } else { %>
+                <ul class="blog-list">
+                    <% blogs.forEach(function(blog) { %>
+                        <li class="blog-item">
+                            <a href="/blog/<%= blog._id %>" class="blog-link"><%= blog.title %></a>
+                            <span class="blog-date"><%= new Date(blog.createdAt).toDateString() %></span>
+                        </li>
+                    <% }); %>
+                </ul>
+            <% } %>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animate profile image on hover
+            const profileImg = document.querySelector('.profile-img');
+            profileImg.addEventListener('mouseover', function() {
+                this.style.transform = 'scale(1.05) rotate(5deg)';
+            });
+            profileImg.addEventListener('mouseout', function() {
+                this.style.transform = 'scale(1)';
+            });
+
+            // Animate blog items on hover
+            const blogItems = document.querySelectorAll('.blog-item');
+            blogItems.forEach(item => {
+                item.addEventListener('mouseover', function() {
+                    this.style.backgroundColor = '#fff8e8';
+                    this.style.borderLeftWidth = '8px';
+                });
+                item.addEventListener('mouseout', function() {
+                    this.style.backgroundColor = 'white';
+                    this.style.borderLeftWidth = '5px';
+                });
+            });
+        });
+    </script>
+</body>
+</html>

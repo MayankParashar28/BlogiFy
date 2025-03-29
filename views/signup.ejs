@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('./partials/header') %>
+  <title>Join Our Blog Community</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body {
+      background-color: #f8f9fa;
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Animated background elements */
+    .bg-element {
+      position: absolute;
+      z-index: -1;
+      opacity: 0.7;
+    }
+
+    .bg-circle {
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      background: linear-gradient(45deg, #ffde59, #ff914d);
+      top: -150px;
+      right: -150px;
+      animation: float 15s ease-in-out infinite;
+    }
+
+    .bg-square {
+      width: 200px;
+      height: 200px;
+      background: linear-gradient(135deg, #a6c1ee, #fbc2eb);
+      bottom: -100px;
+      left: -100px;
+      transform: rotate(45deg);
+      animation: float 18s ease-in-out infinite reverse;
+    }
+
+    .bg-dots {
+      width: 100%;
+      height: 100%;
+      background-image: radial-gradient(#3498db 1px, transparent 1px);
+      background-size: 30px 30px;
+      opacity: 0.2;
+    }
+
+    @keyframes float {
+      0% {
+        transform: translate(0, 0) rotate(0deg);
+      }
+      25% {
+        transform: translate(20px, 20px) rotate(5deg);
+      }
+      50% {
+        transform: translate(0, 40px) rotate(0deg);
+      }
+      75% {
+        transform: translate(-20px, 20px) rotate(-5deg);
+      }
+      100% {
+        transform: translate(0, 0) rotate(0deg);
+      }
+    }
+
+    .page-container {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .header {
+      text-align: center;
+      padding: 20px 0;
+      animation: bounceIn 1s ease;
+    }
+
+    @keyframes bounceIn {
+      0% {
+        transform: scale(0.3);
+        opacity: 0;
+      }
+      50% {
+        transform: scale(1.05);
+      }
+      70% {
+        transform: scale(0.9);
+      }
+      100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    .blog-title {
+      font-size: 2.5rem;
+      color: #3498db;
+      margin-bottom: 10px;
+      text-shadow: 2px 2px 0px rgba(0,0,0,0.1);
+    }
+
+    .blog-subtitle {
+      font-size: 1.2rem;
+      color: #7f8c8d;
+    }
+
+    .container-signup {
+      background-color: white;
+      padding: 2.5rem;
+      border-radius: 20px;
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 600px;
+      margin: 20px auto;
+      position: relative;
+      overflow: hidden;
+      animation: slideUp 0.8s forwards;
+      border: 3px dashed #3498db;
+    }
+
+    /* Cartoon character */
+    .cartoon-character {
+      position: absolute;
+      width: 120px;
+      height: 120px;
+      right: -30px;
+      top: -30px;
+      background-color: #3498db;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      animation: bounce 2s infinite;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .character-face {
+      position: relative;
+      width: 80px;
+      height: 80px;
+    }
+
+    .character-eye {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background-color: white;
+      border-radius: 50%;
+      top: 25px;
+    }
+
+    .character-eye.left {
+      left: 15px;
+    }
+
+    .character-eye.right {
+      right: 15px;
+    }
+
+    .character-pupil {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background-color: #333;
+      border-radius: 50%;
+      top: 5px;
+      left: 5px;
+      animation: lookAround 5s infinite;
+    }
+
+    .character-mouth {
+      position: absolute;
+      width: 40px;
+      height: 15px;
+      background-color: #e74c3c;
+      border-radius: 0 0 20px 20px;
+      bottom: 15px;
+      left: 20px;
+      animation: smile 5s infinite;
+    }
+
+    @keyframes lookAround {
+      0%, 100% { transform: translate(0, 0); }
+      25% { transform: translate(3px, 0); }
+      50% { transform: translate(0, 3px); }
+      75% { transform: translate(-3px, 0); }
+    }
+
+    @keyframes smile {
+      0%, 100% { height: 15px; }
+      50% { height: 10px; width: 45px; left: 17.5px; }
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    h1 {
+      color: #3498db;
+      margin-bottom: 1.5rem;
+      text-align: center;
+      font-weight: 600;
+      font-size: 2rem;
+      animation: wiggle 2s ease-in-out;
+    }
+
+    @keyframes wiggle {
+      0%, 100% { transform: rotate(0); }
+      25% { transform: rotate(-5deg); }
+      75% { transform: rotate(5deg); }
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      color: #3498db;
+      font-weight: 500;
+      font-size: 1.1rem;
+      transform: translateY(5px);
+      opacity: 0;
+      animation: popIn 0.5s forwards;
+      animation-delay: calc(var(--i) * 0.2s);
+    }
+
+    @keyframes popIn {
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 15px;
+      border: 2px solid #e0e0e0;
+      border-radius: 15px;
+      font-size: 16px;
+      transition: all 0.3s ease;
+      outline: none;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
+      background-color: #f9f9f9;
+    }
+
+    .form-control:focus {
+      border-color: #3498db;
+      box-shadow: 0 3px 12px rgba(52, 152, 219, 0.2);
+      background-color: white;
+    }
+
+    .form-text {
+      font-size: 0.9rem;
+      color: #7f8c8d;
+      margin-top: 0.5rem;
+    }
+
+    .submit-btn {
+      width: 100%;
+      padding: 15px;
+      background: linear-gradient(to right, #3498db, #2980b9);
+      color: white;
+      border: none;
+      border-radius: 15px;
+      font-size: 18px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3);
+      position: relative;
+      overflow: hidden;
+      transform: translateY(10px);
+      opacity: 0;
+      animation: bounceUp 0.5s forwards;
+      animation-delay: 0.8s;
+    }
+
+    @keyframes bounceUp {
+      0% {
+        transform: translateY(20px);
+        opacity: 0;
+      }
+      60% {
+        transform: translateY(-5px);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .submit-btn:hover {
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 6px 15px rgba(52, 152, 219, 0.4);
+      background: linear-gradient(to right, #2980b9, #3498db);
+    }
+
+    .submit-btn:active {
+      transform: translateY(0);
+    }
+
+    /* Animated pencil icon */
+    .pencil-container {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      width: 60px;
+      height: 60px;
+      animation: writingMotion 6s infinite;
+    }
+
+    .pencil {
+      width: 60px;
+      height: 10px;
+      background-color: #f1c40f;
+      position: relative;
+      transform: rotate(-45deg);
+      transform-origin: left center;
+    }
+
+    .pencil:before {
+      content: '';
+      position: absolute;
+      left: -5px;
+      top: -5px;
+      width: 20px;
+      height: 20px;
+      background-color: #e74c3c;
+      transform: rotate(45deg);
+    }
+
+    .pencil:after {
+      content: '';
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: 0;
+      height: 0;
+      border-left: 10px solid #34495e;
+      border-top: 5px solid transparent;
+      border-bottom: 5px solid transparent;
+    }
+
+    @keyframes writingMotion {
+      0%, 100% { transform: translate(0, 0) rotate(0); }
+      25% { transform: translate(20px, 10px) rotate(5deg); }
+      50% { transform: translate(40px, 0) rotate(0); }
+      75% { transform: translate(20px, -10px) rotate(-5deg); }
+    }
+
+    /* Floating notes animation */
+    .floating-note {
+      position: absolute;
+      width: 40px;
+      height: 40px;
+      background-color: #f9f9f9;
+      border: 1px solid #e0e0e0;
+      border-radius: 5px;
+      z-index: -1;
+      animation: floatUpDown 10s infinite linear;
+    }
+
+    .note1 {
+      top: 20%;
+      left: 10%;
+      animation-delay: 0s;
+      transform: rotate(10deg);
+    }
+
+    .note2 {
+      top: 40%;
+      right: 15%;
+      animation-delay: 2s;
+      transform: rotate(-5deg);
+    }
+
+    .note3 {
+      bottom: 30%;
+      left: 20%;
+      animation-delay: 4s;
+      transform: rotate(15deg);
+    }
+
+    @keyframes floatUpDown {
+      0% {
+        transform: translateY(0) rotate(0deg);
+      }
+      50% {
+        transform: translateY(-100px) rotate(10deg);
+      }
+      100% {
+        transform: translateY(0) rotate(0deg);
+      }
+    }
+
+    /* Ripple effect for button */
+    .ripple {
+      position: absolute;
+      border-radius: 50%;
+      background-color: rgba(255, 255, 255, 0.4);
+      transform: scale(0);
+      animation: ripple 0.6s linear;
+    }
+
+    @keyframes ripple {
+      to {
+        transform: scale(4);
+        opacity: 0;
+      }
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .container-signup {
+        padding: 1.5rem;
+      }
+      
+      .cartoon-character {
+        width: 80px;
+        height: 80px;
+        right: -20px;
+        top: -20px;
+      }
+      
+      .character-face {
+        width: 50px;
+        height: 50px;
+      }
+      
+      .character-eye {
+        width: 12px;
+        height: 12px;
+        top: 15px;
+      }
+      
+      .character-eye.left {
+        left: 10px;
+      }
+      
+      .character-eye.right {
+        right: 10px;
+      }
+      
+      .character-pupil {
+        width: 6px;
+        height: 6px;
+        top: 3px;
+        left: 3px;
+      }
+      
+      .character-mouth {
+        width: 25px;
+        height: 10px;
+        bottom: 10px;
+        left: 12.5px;
+      }
+      
+      .blog-title {
+        font-size: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Background elements -->
+  <div class="bg-element bg-circle"></div>
+  <div class="bg-element bg-square"></div>
+  <div class="bg-element bg-dots"></div>
+  
+  <!-- Floating notes -->
+  <div class="floating-note note1"></div>
+  <div class="floating-note note2"></div>
+  <div class="floating-note note3"></div>
+  
+  <div class="page-container">
+    <header class="header">
+      <h1 class="blog-title">BloggerSpace</h1>
+      <p class="blog-subtitle">Where ideas come to life</p>
+    </header>
+    
+    <div class="container-signup">
+      <!-- Cartoon character -->
+      <div class="cartoon-character">
+        <div class="character-face">
+          <div class="character-eye left">
+            <div class="character-pupil"></div>
+          </div>
+          <div class="character-eye right">
+            <div class="character-pupil"></div>
+          </div>
+          <div class="character-mouth"></div>
+        </div>
+      </div>
+      
+      <!-- Animated pencil -->
+      <div class="pencil-container">
+        <div class="pencil"></div>
+      </div>
+      
+      <h1>Join Our Community!</h1>
+      <form action="/user/signup" method="post" id="signup-form">
+        <div class="form-group">
+          <label for="fullname" style="--i: 1">Full Name</label>
+          <input type="text" class="form-control" name="fullName" id="fullname" placeholder="Your full name" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="exampleInputEmail1" style="--i: 2">Email address</label>
+          <input type="email" class="form-control" name="email" id="exampleInputEmail1" placeholder="your@email.com" required>
+          <div class="form-text">We'll never share your email with anyone else.</div>
+        </div>
+        
+        <div class="form-group">
+          <label for="exampleInputPassword1" style="--i: 3">Password</label>
+          <input type="password" class="form-control" name="passward" id="exampleInputPassword1" placeholder="Create a strong password" required>
+        </div>
+
+        <button type="submit" class="submit-btn" id="submit-button">
+          <span>Start Your Blogging Journey</span>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <%- include('./partials/script') %>
+  <script>
+    // Add ripple effect to button
+    document.getElementById("submit-button").addEventListener("click", function(e) {
+      const button = this;
+      
+      // Create ripple element
+      const ripple = document.createElement("span");
+      ripple.classList.add("ripple");
+      
+      // Add ripple to button
+      button.appendChild(ripple);
+      
+      // Get position
+      const x = e.clientX - button.getBoundingClientRect().left;
+      const y = e.clientY - button.getBoundingClientRect().top;
+      
+      // Position the ripple
+      ripple.style.left = `${x}px`;
+      ripple.style.top = `${y}px`;
+      
+      // Remove ripple after animation
+      setTimeout(() => {
+        ripple.remove();
+      }, 600);
+    });
+
+    // Animate character eyes to follow cursor
+    document.addEventListener("mousemove", function(e) {
+      const pupils = document.querySelectorAll(".character-pupil");
+      const maxMove = 3;
+      
+      pupils.forEach(pupil => {
+        const rect = pupil.getBoundingClientRect();
+        const x = (e.clientX - rect.left) / window.innerWidth;
+        const y = (e.clientY - rect.top) / window.innerHeight;
+        
+        pupil.style.transform = `translate(${x * maxMove}px, ${y * maxMove}px)`;
+      });
+    });
+
+    // Add focus animations
+    const inputs = document.querySelectorAll('.form-control');
+    
+    inputs.forEach(input => {
+      input.addEventListener('focus', function() {
+        this.style.transform = "scale(1.02)";
+      });
+      
+      input.addEventListener('blur', function() {
+        this.style.transform = "scale(1)";
+      });
+    });
+
+    // Add random movement to floating notes
+    const notes = document.querySelectorAll('.floating-note');
+    
+    notes.forEach(note => {
+      setInterval(() => {
+        const randomX = Math.random() * 20 - 10;
+        const randomRotate = Math.random() * 10 - 5;
+        
+        note.style.transform = `translateX(${randomX}px) rotate(${randomRotate}deg)`;
+      }, 2000);
+    });
+    
+    // Form submission handler
+    document.getElementById("signup-form").addEventListener("submit", function(e) {
+      e.preventDefault();
+      
+      // Add animation class
+      this.classList.add("submitted");
+      
+      // Submit the form after a slight delay for animation
+      setTimeout(() => {
+        this.submit();
+      }, 300);
+    });
+  </script>
+</body>
+</html>

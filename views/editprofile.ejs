@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('./partials/header') %>
+    <title>Edit Profile - Blogify</title>
+</head>
+
+<style>
+    .popup {
+        position: fixed;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 15px;
+        background-color: #f8f9fa;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        z-index: 1000;
+        display: none; /* Initially hidden */
+    }
+    
+    .popup.success {
+        background-color: #28a745;
+        color: white;
+    }
+    
+    .popup.error {
+        background-color: #dc3545;
+        color: white;
+    }
+    
+    .popup.info {
+        background-color: #17a2b8;
+        color: white;
+    }
+    
+    .popup.show {
+        display: block; /* Show the popup */
+    }
+</style>
+
+<body>
+    <div class="container m-4">
+        <h2 class="fw-bold text-center mb-3">Edit Profile</h2>
+        <!-- for error -->
+         
+
+        <form id="editProfileForm" action="/user/edit-profile" method="POST" class="bg-light p-4 rounded shadow">
+            <div class="mb-3">
+                <label for="fullName" class="form-label">Full Name:</label>
+                <input type="text" name="fullName" class="form-control" value="<%= user.fullName || '' %>">
+            </div>
+
+            <div class="mb-3">
+                <label for="email" class="form-label">Email:</label>
+                <input type="email" name="email" class="form-control" value="<%= user.email || '' %>">
+            </div>
+
+            <div class="mb-3">
+                <label for="bio" class="form-label">Bio:</label>
+                <textarea name="bio" class="form-control" rows="3"><%= user.bio || '' %></textarea>
+            </div>
+
+            <h3 class="fw-bold mt-4 mb-3">Social Links</h3>
+
+            <div class="mb-3">
+                <label for="linkedin" class="form-label">LinkedIn:</label>
+                <input type="url" name="socials[linkedin]" class="form-control" value="<%= user.socials?.linkedin || '' %>">
+            </div>
+
+            <div class="mb-3">
+                <label for="twitter" class="form-label">Twitter:</label>
+                <input type="url" name="socials[twitter]" class="form-control" value="<%= user.socials?.twitter || '' %>">
+            </div>
+
+            <div class="mb-3">
+                <label for="github" class="form-label">GitHub:</label>
+                <input type="url" name="socials[github]" class="form-control" value="<%= user.socials?.github || '' %>">
+            </div>
+
+            <div class="mb-3">
+                <label for="instagram" class="form-label">Instagram:</label>
+                <input type="url" name="socials[instagram]" class="form-control" value="<%= user.socials?.instagram || '' %>">
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100 mt-3">Update Profile</button>
+        </form>
+    </div>
+
+    <script>
+        document.querySelector("#editProfileForm").addEventListener("submit", async (e) => {
+            e.preventDefault();
+            
+            const formData = new FormData(e.target);
+            const data = Object.fromEntries(formData.entries());
+            
+            try {
+                const response = await fetch("/edit-profile", {
+                    method: "POST",
+                    body: new URLSearchParams(data),
+                });
+        
+                const result = await response.json();
+        
+                if (response.ok) {
+                    // Show error popup since you requested it to show error
+                    showPopup("Error", "Failed to update profile. Please try again.", "error");
+        
+                    // Show "Next Update" popup as error
+                    showPopup("Next Update", "You can update your profile again in 24 hours.", "error");
+        
+                    // Redirect to profile page after 5 seconds (optional, based on error status)
+                    setTimeout(() => {
+                        window.location.href = "/profile"; // Redirect to profile page
+                    }, 5000);
+                } else {
+                    // Show error popup if the server responds with an error
+                    showPopup("Error", result.error || "Failed to update profile", "error");
+                }
+            } catch (error) {
+                // Handle unexpected errors and show error popup
+                showPopup("Error", "Something went wrong!", "error");
+            }
+        });
+
+        function showPopup(title, message, type) {
+            // Create a popup element dynamically
+            const popup = document.createElement("div");
+            popup.classList.add("popup", type);
+            
+            // Add content to popup
+            const popupTitle = document.createElement("h4");
+            popupTitle.textContent = title;
+            const popupMessage = document.createElement("p");
+            popupMessage.textContent = message;
+            
+            // Append to the popup
+            popup.appendChild(popupTitle);
+            popup.appendChild(popupMessage);
+        
+            // Add the popup to the body
+            document.body.appendChild(popup);
+        
+            // Auto-hide the popup after 5 seconds
+            setTimeout(() => {
+                popup.remove();
+            }, 5000);
+        }
+    </script>
+
+    <%- include('./partials/footer') %>
+</body>
+</html>
