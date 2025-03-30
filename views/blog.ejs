@@ -4,6 +4,18 @@
 <head>
     <%- include('./partials/header') %>
         <style>
+            :root {
+                --bg-color-light: #ffffff;
+                --text-color-light: #000;
+                --card-bg-light: #f8f9fa;
+                --border-color-light: #ddd;
+
+                --bg-color-dark: #1e1e1e;
+                --text-color-dark: #fff;
+                --card-bg-dark: #2a2a2a;
+                --border-color-dark: #444;
+            }
+
             body {
                 background-color: #f0f4f8;
                 background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%23dddddd' fill-opacity='0.4'%3E%3Cpath opacity='.5' d='M96 95h4v1h-4v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9zm-1 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9z'/%3E%3Cpath d='M6 5V0H5v5H0v1h5v94h1V6h94V5H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
@@ -51,7 +63,7 @@
                 color: white;
                 text-decoration: none;
                 transition: 0.5s;
-                margin: 0 5px;
+                margin: 5px 5px;
                 background-color: rgba(0, 0, 0, 0.1);
             }
 
@@ -145,6 +157,137 @@
                 color: #ff6600;
                 /* Change color when bookmarked */
             }
+
+            /* Default (Light Mode) */
+            .blog-title {
+                color: #333;
+                transition: color 0.3s ease;
+            }
+
+            /* Dark Mode */
+            [data-theme="dark"] .blog-title {
+                color: #fff;
+            }
+
+            .theme-toggle:hover {
+                transform: scale(1.1);
+            }
+
+            .theme-toggle i {
+                font-size: 1.5rem;
+                color: var(--text-primary);
+            }
+
+
+            /* Theme toggle button styles */
+            .theme-toggle {
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                background: var(--card-bg);
+                border: 2px solid var(--border-color);
+                border-radius: 50%;
+                width: 50px;
+                height: 50px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                box-shadow: 0 2px 10px var(--shadow-color);
+                z-index: 1000;
+                transition: all 0.3s ease;
+            }
+
+            .blog-container {
+                background-color: var(--bg-color);
+                color: var(--text-color);
+                transition: background 0.3s ease, color 0.3s ease;
+            }
+
+
+
+            .blog-body {
+                font-size: 1.1rem;
+                white-space: pre-wrap;
+            }
+
+
+
+            [data-theme="light"] {
+                --bg-color: var(--bg-color-light);
+                --text-color: var(--text-color-light);
+                --card-bg: var(--card-bg-light);
+                --border-color: var(--border-color-light);
+            }
+
+            [data-theme="dark"] {
+                --bg-color: var(--bg-color-dark);
+                --text-color: var(--text-color-dark);
+                --card-bg: var(--card-bg-dark);
+                --border-color: var(--border-color-dark);
+            }
+
+
+
+            .blog-container,
+            .alert,
+            .comment-container,
+            .follow-container {
+                background-color: var(--card-bg);
+                color: var(--text-color);
+                border: 1px solid var(--border-color);
+                transition: background 0.3s ease, color 0.3s ease, border 0.3s ease;
+            }
+
+            .bookmark-btn,
+            .like-button,
+
+            .follow-button {
+                background: transparent;
+                color: var(--text-color);
+                border: none;
+            }
+
+            .bookmark-btn i,
+            .like-button i {
+                color: var(--text-color);
+            }
+
+            .share-buttons i {
+                transition: color 0.3s;
+            }
+
+            .form-control {
+                background-color: var(--card-bg);
+                color: var(--text-color);
+                border: 1px solid var(--border-color);
+            }
+
+            .form-control::placeholder {
+                color: var(--text-color);
+                opacity: 0.6;
+            }
+
+            .theme-text {
+                color: var(--text-color);
+                transition: color 0.3s ease;
+            }
+
+            .bookmark-btn i {
+                color: var(--text-color);
+                transition: color 0.3s ease;
+            }
+
+           
+
+            .theme-bg {
+                background-color: var(--bg-color);
+                transition: background-color 0.3s ease;
+            }
+
+            .follow-button {
+                transition: background-color 0.3s ease, color 0.3s ease;
+            }
         </style>
 </head>
 
@@ -177,59 +320,53 @@
 
             <!-- blog -->
             <div class="container mt-4">
-                <article class="p-4 bg-light shadow rounded">
-                    <h1 class="fw-bold blog-title ">
+                <article class="p-4 shadow rounded blog-container">
+                    <h1 class="fw-bold blog-title">
                         <%= blog.title %>
-
                     </h1>
 
-
-
                     <div class="d-flex justify-content-between align-items-center">
-                        <h6 class="text-muted"><i class="far fa-calendar-alt"></i>
+                        <h6 class="theme-text"><i class="far fa-calendar-alt"></i>
                             <%= formattedDate %>
                         </h6>
-                        <h6 class="text-muted"><i class="far fa-eye"></i>
+                        <h6 class="theme-text"><i class="far fa-eye"></i>
                             <%= blog.views %> views
                         </h6>
-
-
                     </div>
 
-                    <!-- bookmark -->
+                    <!-- Bookmark -->
                     <div class="d-flex justify-content-end">
                         <button id="bookmark-btn" class="bookmark-btn">
                             <i id="bookmark-icon"
                                 class="<%= isBookmarked ? 'fa-solid' : 'fa-regular' %> fa-bookmark"></i>
                         </button>
                     </div>
-<!-- delete btn -->
-                   
 
-
+                    <!-- Blog Cover Image -->
                     <div class="text-center mt-3">
                         <img class="rounded shadow-lg img-fluid blog-image"
-                        src="<%= blog.coverImageURL && blog.coverImageURL !== '' ? blog.coverImageURL : 'default-cover.png' %>" 
-                        alt="Blog Cover">
+                            src="<%= blog.coverImageURL && blog.coverImageURL !== '' ? blog.coverImageURL : 'default-cover.png' %>"
+                            alt="Blog Cover">
                     </div>
 
-                    <pre class="mt-4 lead">
-                      <%= blog.body.split(" ").slice(0, 600).join(" ") %>              
-                     </pre>
+                    <!-- Blog Content -->
+                    <pre class="mt-4 lead blog-body">
+                        <%= blog.body.split(" ").slice(0, 600).join(" ") %>
+                    </pre>
 
-                    <div class="d-flex gap-3  align-items-center mt-3">
+                    <div class="d-flex gap-3 align-items-center mt-3">
                         <div class="d-flex gap-3 mr-auto">
                             <button class="like-button" id="likeButton" data-blog-id="<%= blog._id %>">
                                 <i id="likeIcon"
                                     class="<%= user && blog.likedBy.includes(user._id.toString()) ? 'fas text-primary' : 'far' %> fa-thumbs-up fs-4"></i>
-
                                 <% if (user && blog.createdBy._id.toString()===user._id.toString()) { %>
-                                    <span id="likeCount" class="ms-2 text-muted fs-5">
+                                    <span id="likeCount" class="ms-2 likeCount theme-text fs-5">
                                         <%= blog.likes || 0 %>
                                     </span>
                                     <% } %>
                             </button>
 
+                            <!-- Share Buttons -->
                             <div class="share-buttons">
                                 <a href="https://www.facebook.com/sharer/sharer.php?u=<%= blogUrl %>" target="_blank">
                                     <i class="fab fa-facebook-square fa-2x text-primary"></i>
@@ -245,10 +382,9 @@
                                     <i class="fab fa-whatsapp fa-2x text-success"></i>
                                 </a>
                             </div>
-
                         </div>
 
-                        <!--  view profile -->
+                        <!-- View Profile -->
                         <% if (!user || String(user._id) !==String(blog.createdBy._id)) { %>
                             <a href="/user/profile/<%= blog.createdBy._id %>" class="btn btn-primary">View Profile</a>
                             <% } %>
@@ -256,8 +392,9 @@
                 </article>
 
                 <!-- Author & Follow Section -->
+               
                 <div
-                    class="mt-4 p-3 container d-flex p-1 bd-highlight user-select-none justify-content-between align-items-center  ">
+                    class="mt-4 p-3 container d-flex p-1 bd-highlight user-select-none justify-content-between align-items-center">
                     <% if (user && String(user._id) !==String(blog.createdBy._id)) { %>
                         <form method="POST" action="/user/follow/<%= blog.createdBy._id %>">
                             <button type="submit"
@@ -267,9 +404,8 @@
                             </button>
                         </form>
                         <% } %>
-                            <h5 class="ms-3 text-muted">@ <%= blog.createdBy.fullName %>
+                            <h5 class="ms-3 theme-text">@ <%= blog.createdBy.fullName %>
                             </h5>
-
                 </div>
 
             </div>
@@ -295,22 +431,20 @@
             <!-- Display Comments -->
             <div class="container mt-4">
                 <% comments.forEach(comment=> { %>
-                    <div class="d-flex justify-content-start bg-light align-items-baseline p-2 mb-2 rounded">
+                    <div class="d-flex justify-content-start theme-bg align-items-baseline p-2 mb-2 rounded">
                         <div class="d-flex justify-content-start align-items-baseline gap-2 p-2 rounded">
-                            <h6 class="fst-italic">
+                            <h6 class="fst-italic theme-text">
                                 <%= comment.createdBy.fullName %>:
                             </h6>
-                            <p class="fw-bold fst-italic text-muted">
+                            <p class="fw-bold fst-italic theme-text">
                                 <%= comment.content %>
                             </p>
                         </div>
-                        <p class="fw-lighter fst-italic text-muted ms-auto">
+                        <p class="fw-lighter fst-italic theme-text ms-auto">
                             <%= moment(comment.createdAt).fromNow() %>
                         </p>
                     </div>
                     <% }) %>
-
-
             </div>
 
 
@@ -545,6 +679,83 @@
                         });
                     });
                 </script>
+
+                <script> //  btn for theme Mode
+                    // Function to apply theme
+
+                    // Theme handling
+                    const themeToggle = document.getElementById('themeToggle');
+                    const lightIcon = document.getElementById('lightIcon');
+                    const darkIcon = document.getElementById('darkIcon');
+                    const html = document.documentElement;
+
+                    // Check for saved theme preference
+                    const getPreferredTheme = () => {
+                        const savedTheme = localStorage.getItem('theme');
+                        if (savedTheme) {
+                            return savedTheme;
+                        }
+                        return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+                    };
+
+                    // Apply theme
+                    const setTheme = (theme) => {
+                        html.setAttribute('data-theme', theme);
+                        localStorage.setItem('theme', theme);
+
+                        // Update icons
+                        if (theme === 'dark') {
+                            lightIcon.style.display = 'none';
+                            darkIcon.style.display = 'inline';
+                        } else {
+                            lightIcon.style.display = 'inline';
+                            darkIcon.style.display = 'none';
+                        }
+
+                        // Dispatch event for navbar
+                        window.dispatchEvent(new CustomEvent('themeChange', { detail: { theme } }));
+                    };
+
+                    // Initialize theme
+                    setTheme(getPreferredTheme());
+
+                    // Toggle theme on button click
+                    themeToggle.addEventListener('click', () => {
+                        const currentTheme = html.getAttribute('data-theme');
+                        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                        setTheme(newTheme);
+                    });
+
+                    // Listen for system theme changes
+                    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+                        if (!localStorage.getItem('theme')) {
+                            setTheme(e.matches ? 'dark' : 'light');
+                        }
+                    });
+
+                    // Listen for theme changes from navbar
+                    window.addEventListener('themeChange', (e) => {
+                        setTheme(e.detail.theme);
+                    });
+                </script>
+                <script> // Apply theme
+                    function applyTheme(theme) {
+                        document.documentElement.setAttribute("data-theme", theme);
+                        localStorage.setItem("theme", theme);
+                    }
+
+                    function initializeTheme() {
+                        const savedTheme = localStorage.getItem("theme") || "light";
+                        applyTheme(savedTheme);
+                    }
+
+                    window.addEventListener("themeChange", (event) => {
+                        applyTheme(event.detail.theme);
+                    });
+
+                    initializeTheme();
+                </script>
+
 
 </body>
 

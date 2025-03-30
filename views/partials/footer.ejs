@@ -5,448 +5,95 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Simple Footer</title>
     <style>
-        body {
-            background-color: #f5f5f5;
-            color: #333;
-            line-height: 1.4;
-            margin: 0; /* Reset body margin */
-        }
-
-        /* Footer container */
+        /* Footer Styles */
         .footer {
-            margin-top: 20px;
-            background-color: #ffffff;
+            background: #f8f9fa;
             color: #333;
-            padding: 1rem 0; /* Reduced padding */
-            box-shadow: 0 -1px 6px rgba(0, 0, 0, 0.05);
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+        [data-theme="dark"] .footer {
+            background: #1f1f1f;
+            color: #fff;
         }
 
-        .footer-container {
-            padding: 0 1rem; /* Reduced padding */
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        /* Horizontal divider */
-        .divider {
-            height: 1px;
-            background-color: #e0e0e0;
-            margin: 0.5rem 0; /* Reduced margin */
-        }
-
-        /* Footer content area */
-        .footer-content {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Adjusted minmax width */
-            gap: 1rem; /* Reduced gap */
-            margin-bottom: 0.5rem; /* Reduced margin */
-        }
-
-        /* Footer sections */
-        .footer-section h2 {
-            font-size: 0.8rem; /* Reduced font size */
-            font-weight: 600;
-            margin-bottom: 0.5rem; /* Reduced margin */
-            color: #444;
-        }
-
-        .footer-section p {
-            color: #666;
-            margin-bottom: 0.5rem; /* Reduced margin */
-            font-size: 0.7rem; /* Reduced font size */
-        }
-
-        /* Newsletter form */
-        .newsletter-form {
-            display: flex;
-            margin-top: 0; /* Removed margin */
-        }
-
-        .newsletter-input {
-            flex-grow: 1;
-            background-color: #f5f5f5;
-            border: 1px solid #e0e0e0;
-            color: #333;
-            padding: 0.4rem 0.6rem; /* Reduced padding */
-            font-size: 0.7rem; /* Reduced font size */
-            border-radius: 4px 0 0 4px;
-            outline: none;
-        }
-
-        .newsletter-input::placeholder {
-            color: #999;
-        }
-
-        .newsletter-input:focus {
-            border-color: #ccc;
-        }
-
-        .newsletter-button {
-            background-color: #f5f5f5;
-            border: 1px solid #e0e0e0;
-            border-left: none;
-            color: #555;
-            padding: 0.4rem 0.6rem; /* Reduced padding */
-            border-radius: 0 4px 4px 0;
+        /* Scroll to Top Button */
+        #scrollToTop {
+            display: none;
+            position: fixed;
+            margin: 5px;
+            bottom: 100px;
+            right: 20px; /* Moved slightly left for better toggle btn visibility */
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 8px;
+            font-size: 18px;
             cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            transition: opacity 0.3s;
         }
-
-        .newsletter-button:hover {
-            background-color: #eee;
+        #scrollToTop:hover {
+            background: #0056b3;
         }
-
-        /* Quick links */
-        .quick-links {
-            list-style: none;
-            padding: 0; /* Reset padding */
-            margin: 0; /* Reset margin */
+        [data-theme="dark"] #scrollToTop {
+            background: #ffcc00;
+            color: black;
         }
-
-        .quick-links li {
-            margin-bottom: 0.3rem; /* Reduced margin */
-        }
-
-        .quick-links a {
-            color: #666;
-            text-decoration: none;
-            transition: color 0.2s ease;
-            font-size: 0.7rem; /* Reduced font size */
-        }
-
-        .quick-links a:hover {
-            color: #333;
-        }
-
-        /* Contact info */
-        .contact-info {
-            list-style: none;
-            padding: 0; /* Reset padding */
-            margin: 0; /* Reset margin */
-        }
-
-        .contact-info li {
-            color: #666;
-            margin-bottom: 0.3rem; /* Reduced margin */
-            font-size: 0.7rem; /* Reduced font size */
-        }
-
-        /* Social media */
-        .social-icons {
-            display: flex;
-            gap: 0.5rem; /* Reduced gap */
-        }
-
-        .social-icon {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 25px; /* Reduced size */
-            height: 25px; /* Reduced size */
-            border-radius: 50%;
-            background-color: #f5f5f5;
-            color: #555;
-            text-decoration: none;
-            transition: background-color 0.2s ease;
-        }
-
-        .social-icon:hover {
-            background-color: #e0e0e0;
-        }
-
-        .social-icon svg {
-            width: 12px; /* Reduced size */
-            height: 12px; /* Reduced size */
-        }
-
-        /* Theme switcher */
-        .theme-switcher {
-            display: flex;
-            align-items: center;
-            gap: 0.3rem; /* Reduced gap */
-            margin-top: 0.5rem; /* Reduced margin */
-        }
-
-        .theme-label {
-            display: flex;
-            align-items: center;
-            font-size: 0.7rem; /* Reduced font size */
-        }
-
-        .switch {
-            position: relative;
-            display: inline-block;
-            width: 30px; /* Reduced size */
-            height: 15px; /* Reduced size */
-        }
-
-        .switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-
-        .slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: #ccc;
-            transition: .4s;
-            border-radius: 20px;
-        }
-
-        .slider:before {
-            position: absolute;
-            content: "";
-            height: 13px; /* Reduced size */
-            width: 13px; /* Reduced size */
-            left: 1px;
-            bottom: 1px;
-            background-color: white;
-            transition: .4s;
-            border-radius: 50%;
-        }
-
-        input:checked + .slider {
-            background-color: #555;
-        }
-
-        input:checked + .slider:before {
-            transform: translateX(15px); /* Adjusted translate */
-        }
-
-        /* Footer bottom */
-        .footer-bottom {
-            display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 0.5rem; /* Reduced gap */
-            margin-top: 0.5rem; /* Reduced margin */
-            font-size: 0.7rem;
-        }
-
-        .copyright {
-            color: #777;
-            font-size: 0.7rem; /* Reduced font size */
-        }
-
-        .footer-links {
-            display: flex;
-            gap: 0.75rem; /* Reduced gap */
-        }
-
-        .footer-links a {
-            color: #777;
-            text-decoration: none;
-            font-size: 0.7rem; /* Reduced font size */
-            transition: color 0.2s ease;
-        }
-
-        .footer-links a:hover {
-            color: #333;
-        }
-
-        /* Responsive adjustments */
-        @media (max-width: 768px) {
-            .footer-content {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .footer-bottom {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .footer-content {
-                grid-template-columns: 1fr;
-            }
+        [data-theme="dark"] #scrollToTop:hover {
+            background: #e6b800;
         }
     </style>
 </head>
 <body>
-    <footer class="footer">
-        <div class="footer-container">
-            <div class="footer-content">
-                <!-- Stay Connected Section -->
-                <div class="footer-section">
-                    <h2>Stay Connected</h2>
-                    <p>Join our newsletter for the latest updates and exclusive offers.</p>
-                    <div class="newsletter-form">
-                        <input type="email" class="newsletter-input" placeholder="Enter your email">
-                        <button class="newsletter-button">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <line x1="5" y1="12" x2="19" y2="12"></line>
-                                <polyline points="12 5 19 12 12 19"></polyline>
-                            </svg>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Quick Links Section -->
-                <div class="footer-section">
-                    <h2>Quick Links</h2>
-                    <ul class="quick-links">
-                        <li><a href="#">Home</a></li>
-                        <li><a href="#">About Us</a></li>
-                        <li><a href="#">Services</a></li>
-                        <li><a href="#">Products</a></li>
-                        <li><a href="#">Contact</a></li>
-                    </ul>
-                </div>
-
-                <!-- Contact Us Section -->
-                <div class="footer-section">
-                    <h2>Contact Us</h2>
-                    <ul class="contact-info">
-                        <li>123 Innovation Street</li>
-                        <li>Tech City, TC 12345</li>
-                        <li>Phone: (123) 456-7890</li>
-                        <li>Email: hello@example.com</li>
-                    </ul>
-                </div>
-
-                <!-- Follow Us Section -->
-                <div class="footer-section">
-                    <h2>Follow Us</h2>
-                    <div class="social-icons">
-                        <a href="#" class="social-icon" aria-label="Facebook">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
-                            </svg>
-                        </a>
-                        <a href="#" class="social-icon" aria-label="Twitter">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"></path>
-                            </svg>
-                        </a>
-                        <a href="#" class="social-icon" aria-label="Instagram">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-                                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-                                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-                            </svg>
-                        </a>
-                        <a href="#" class="social-icon" aria-label="LinkedIn">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
-                                <rect x="2" y="9" width="4" height="12"></rect>
-                                <circle cx="4" cy="4" r="2"></circle>
-                            </svg>
-                        </a>
-                    </div>
-
-                    <div class="theme-switcher">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <circle cx="12" cy="12" r="5"></circle>
-                            <line x1="12" y1="1" x2="12" y2="3"></line>
-                            <line x1="12" y1="21" x2="12" y2="23"></line>
-                            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                            <line x1="1" y1="12" x2="3" y2="12"></line>
-                            <line x1="21" y1="12" x2="23" y2="12"></line>
-                            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-                        </svg>
-
-                        <label class="switch">
-                            <input type="checkbox" id="themeToggle">
-                            <span class="slider"></span>
-                        </label>
-
-                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-                        </svg>
-                    </div>
-                </div>
-            </div>
-
-            <div class="divider"></div>
-
-            <div class="footer-bottom">
-                <div class="copyright">
-                    © 2024 Your Company. All rights reserved.
-                </div>
-
-                <div class="footer-links">
-                    <a href="#">Privacy Policy</a>
-                    <a href="#">Terms of Service</a>
-                    <a href="#">Cookie Settings</a>
-                </div>
-            </div>
-        </div>
+    <footer class="text-center py-3 border-top footer">
+        <p class="mb-0">© 2025 Blogify | All Rights Reserved.</p>
+      
+        <!-- Scroll to Top Button -->
+        <button id="scrollToTop" class="btn btn-sm rounded-circle">
+          <i class="bi bi-arrow-up"></i>
+        </button>
     </footer>
-<script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Theme toggle functionality
-            const themeToggle = document.getElementById('themeToggle');
-            const footer = document.querySelector('.footer');
-            
-            themeToggle.addEventListener('change', function() {
-                if(this.checked) {
-                    // Dark theme
-                    document.body.style.backgroundColor = '#333';
-                    document.body.style.color = '#fff';
-                    footer.style.backgroundColor = '#222';
-                    footer.style.color = '#fff';
-                    footer.style.boxShadow = '0 -1px 6px rgba(0, 0, 0, 0.2)';
-                    
-                    // Update styles for dark theme
-                    document.querySelectorAll('.footer-section h2').forEach(el => el.style.color = '#eee');
-                    document.querySelectorAll('.footer-section p, .contact-info li').forEach(el => el.style.color = '#bbb');
-                    document.querySelectorAll('.quick-links a, .footer-links a').forEach(el => el.style.color = '#bbb');
-                    document.querySelectorAll('.divider').forEach(el => el.style.backgroundColor = '#444');
-                    document.querySelector('.copyright').style.color = '#aaa';
-                    
-                    // Update form elements
-                    document.querySelector('.newsletter-input').style.backgroundColor = '#333';
-                    document.querySelector('.newsletter-input').style.borderColor = '#444';
-                    document.querySelector('.newsletter-input').style.color = '#eee';
-                    document.querySelector('.newsletter-button').style.backgroundColor = '#333';
-                    document.querySelector('.newsletter-button').style.borderColor = '#444';
-                    document.querySelector('.newsletter-button').style.color = '#eee';
-                    
-                    // Update social icons
-                    document.querySelectorAll('.social-icon').forEach(el => {
-                        el.style.backgroundColor = '#333';
-                        el.style.color = '#eee';
-                    });
+
+    <script>
+        // Scroll to Top Button Logic
+        const scrollToTopBtn = document.getElementById("scrollToTop");
+        window.addEventListener("scroll", () => {
+            scrollToTopBtn.style.display = window.scrollY > 400 ? "block" : "none";
+        });
+        scrollToTopBtn.addEventListener("click", () => {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        });
+
+        // Apply theme when page loads
+        function applyTheme(theme) {
+            document.documentElement.setAttribute("data-theme", theme);
+        }
+        applyTheme(localStorage.getItem("theme") || "light");
+
+        // Listen for theme change event from navbar
+        window.addEventListener("themeChange", (event) => {
+            applyTheme(event.detail.theme);
+        });
+    </script>
+    <script> // Scroll to Top Button
+        document.addEventListener("DOMContentLoaded", () => {
+            const scrollToTopBtn = document.getElementById("scrollToTop");
+    
+            // Show/hide button on scroll
+            window.addEventListener("scroll", () => {
+                if (window.scrollY > 400) {
+                    scrollToTopBtn.style.display = "block";
                 } else {
-                    // Light theme (reset to initial)
-                    document.body.style.backgroundColor = '#f5f5f5';
-                    document.body.style.color = '#333';
-                    footer.style.backgroundColor = '#ffffff';
-                    footer.style.color = '#333';
-                    footer.style.boxShadow = '0 -1px 6px rgba(0, 0, 0, 0.05)';
-                    
-                    // Reset styles
-                    document.querySelectorAll('.footer-section h2').forEach(el => el.style.color = '#444');
-                    document.querySelectorAll('.footer-section p, .contact-info li').forEach(el => el.style.color = '#666');
-                    document.querySelectorAll('.quick-links a, .footer-links a').forEach(el => el.style.color = '#666');
-                    document.querySelectorAll('.divider').forEach(el => el.style.backgroundColor = '#e0e0e0');
-                    document.querySelector('.copyright').style.color = '#777';
-                    
-                    // Reset form elements
-                    document.querySelector('.newsletter-input').style.backgroundColor = '#f5f5f5';
-                    document.querySelector('.newsletter-input').style.borderColor = '#e0e0e0';
-                    document.querySelector('.newsletter-input').style.color = '#333';
-                    document.querySelector('.newsletter-button').style.backgroundColor = '#f5f5f5';
-                    document.querySelector('.newsletter-button').style.borderColor = '#e0e0e0';
-                    document.querySelector('.newsletter-button').style.color = '#555';
-                    
-                    // Reset social icons
-                    document.querySelectorAll('.social-icon').forEach(el => {
-                        el.style.backgroundColor = '#f5f5f5';
-                        el.style.color = '#555';
-                    });
+                    scrollToTopBtn.style.display = "none";
                 }
             });
+    
+            // Smooth scroll to top
+            scrollToTopBtn.addEventListener("click", () => {
+                window.scrollTo({ top: 0, behavior: "smooth" });
+            });
+    
+            // Ensure the button remains hidden initially
+            scrollToTopBtn.style.display = "none";
         });
     </script>
 </body>
