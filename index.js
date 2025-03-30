@@ -3,6 +3,7 @@ const cookieParser = require("cookie-parser");
 const app = express();
 const path = require("path");
 const session = require("express-session");
+const MongoStore = require("connect-mongo");
 const svgCaptcha = require("svg-captcha");
 const mongoose = require("mongoose");
 const moment = require("moment");
@@ -53,9 +54,21 @@ app.use((req, res, next) => {
 });
 
 
+const store = MongoStore.create({
+  mongoUrl: URI,
+  crypto: { secret: "superman@" },
+  touchAfter: 24 * 3600,
+  collection: "sessions",
+});
+
+store.on("error", function (error) {
+  console.error("❌ Error connecting to MongoDB:", error.message);
+});
+
 // Session Configuration
 app.use(
   session({
+    store,
     secret: "superman@",
     resave: false,
     saveUninitialized: true,
