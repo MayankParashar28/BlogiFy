@@ -9,6 +9,7 @@ const mongoose = require("mongoose");
 const moment = require("moment");
 const flash = require("connect-flash");
 const aiRoute = require("./routes/ai");
+
 const dotenv = require("dotenv");
 dotenv.config();
 const socketio = require("socket.io");
@@ -26,7 +27,6 @@ const userRoute = require("./routes/user");
 const blogRoute = require("./routes/blog");
 const subscriptionRoute = require("./routes/subscription");
 const notificationsRoute = require("./routes/notifications");
-const { ServerApiVersion } = require("mongodb");
 
 // MongoDB Connection
 
@@ -39,6 +39,30 @@ mongoose
   .connect(URI)
   .then(() => console.log("✅ MongoDB connected successfully."))
   .catch((error) => console.error("❌ Error connecting to MongoDB:", error.message));
+
+// Optional MongoClient ping check (non-blocking)
+const { MongoClient, ServerApiVersion } = require("mongodb");
+const testClient = new MongoClient(URI, {
+  serverApi: {
+    version: ServerApiVersion.v1,
+    strict: true,
+    deprecationErrors: true,
+  }
+});
+
+async function pingMongoDB() {
+  try {
+    await testClient.connect();
+    await testClient.db("admin").command({ ping: 1 });
+    console.log("✅ Pinged your MongoDB deployment successfully.");
+  } catch (err) {
+    console.error("❌ MongoDB ping failed:", err.message);
+  } finally {
+    await testClient.close();
+  }
+}
+
+pingMongoDB();
 
 const port = process.env.PORT || 8000;
 
