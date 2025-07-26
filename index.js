@@ -29,7 +29,7 @@ const notificationsRoute = require("./routes/notifications");
 const { ServerApiVersion } = require("mongodb");
 
 // MongoDB Connection
-const URI = process.env.MONGO_URI || "mongodb://127.0.0.1:27017/blogiFy";
+const URI = process.env.MONGO_URI;
 
 mongoose
   .connect(URI)
