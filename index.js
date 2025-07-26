@@ -40,7 +40,7 @@ mongoose
   .then(() => console.log("✅ MongoDB connected successfully."))
   .catch((error) => console.error("❌ Error connecting to MongoDB:", error.message));
 
-const port = 8000;
+const port = process.env.PORT || 8000;
 
 // View Engine Setup
 app.set("view engine", "ejs");
@@ -267,4 +267,4 @@ app.get("*", (req, res) => {
 });
 
 // Start Server
-app.listen(port, () => console.log(`🚀 App listening on port ${port}`));
+server.listen(port, () => console.log(`🚀 App listening on port ${port}`));
