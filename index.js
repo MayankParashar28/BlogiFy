@@ -29,6 +29,7 @@ const notificationsRoute = require("./routes/notifications");
 const { ServerApiVersion } = require("mongodb");
 
 // MongoDB Connection
+
 const URI = process.env.MONGO_URI;
 if (!URI) {
   throw new Error("❌ MONGO_URI is not defined. Please add it to your environment variables.");
