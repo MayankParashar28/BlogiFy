@@ -29,7 +29,8 @@ const notificationsRoute = require("./routes/notifications");
 const { ServerApiVersion } = require("mongodb");
 
 // MongoDB Connection
-const URI = "mongodb://127.0.0.1:27017/blogiFy";
+const URI = process.env.MONGO_URI;
+
 mongoose
   .connect(URI)
   .then(() => console.log("✅ MongoDB connected successfully."))
@@ -55,16 +56,6 @@ app.use((req, res, next) => {
 });
 
 
-const store = MongoStore.create({
-  mongoUrl: URI,
-  crypto: { secret: "superman@" },
-  touchAfter: 24 * 3600,
-  collection: "sessions",
-});
-
-store.on("error", function (error) {
-  console.error("❌ Error connecting to MongoDB:", error.message);
-});
 
 // Add session store error handling
 const sessionStore = MongoStore.create({
@@ -168,7 +159,7 @@ app.get("/", async (req, res) => {
     const tags = await Blog.distinct("tags");
 
     // Fetch featured and trending blogs
-    const featuredBlogs = await Blog.find({ isFeatured: true }).limit(5);
+    const featuredBlogs = await Blog.find({ featured: true }).limit(5);
     const trendingBlogs = await Blog.find().sort({ views: -1 }).limit(3);
 
 
