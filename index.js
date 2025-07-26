@@ -55,16 +55,16 @@ app.use((req, res, next) => {
 });
 
 
-// const store = MongoStore.create({
-//   mongoUrl: URI,
-//   crypto: { secret: "superman@" },
-//   touchAfter: 24 * 3600,
-//   collection: "sessions",
-// });
+const store = MongoStore.create({
+  mongoUrl: URI,
+  crypto: { secret: "superman@" },
+  touchAfter: 24 * 3600,
+  collection: "sessions",
+});
 
-// store.on("error", function (error) {
-//   console.error("❌ Error connecting to MongoDB:", error.message);
-// });
+store.on("error", function (error) {
+  console.error("❌ Error connecting to MongoDB:", error.message);
+});
 
 // Add session store error handling
 const sessionStore = MongoStore.create({
