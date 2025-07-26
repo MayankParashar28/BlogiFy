@@ -314,23 +314,32 @@ router.get("/signin", (req, res) => {
 });
 
 router.post("/signin", async (req, res) => {
-  let { email, passward } = req.body;
+  let { email, passward, captcha } = req.body;
 
   try {
+    // Verify CAPTCHA first
+    if (!req.session.captcha) {
+      return res.status(400).render("signin", { error: "CAPTCHA expired. Please try again." });
+    }
+
+    if (!captcha || captcha.toLowerCase() !== req.session.captcha.toLowerCase()) {
+      return res.status(400).render("signin", { error: "Incorrect CAPTCHA. Please try again." });
+    }
+
+    // Clear the captcha from session after verification
+    req.session.captcha = null;
+
+    // Proceed with authentication
     const token = await User.matchPasswardAndGenerateToken(email, passward);
 
-    // console.log("🟢 Token generated:");
-
-    res.cookie("token", token,{
+    res.cookie("token", token, {
       httpOnly: true,  
       secure: false,   
       sameSite: "Lax", 
       path: "/",       
       maxAge: 86400 * 1000, 
     });
-
-    // console.log("🟢 Cookie being set:");
-    // console.log("🟢 Response headers:", res.getHeaders());    
+    
     return res.redirect("/");
   } catch (error) {
     console.error("❌ Error during sign-in:", error);

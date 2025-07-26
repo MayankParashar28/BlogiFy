@@ -943,6 +943,50 @@
                     font-size: 1rem;
                 }
             }
+
+
+            /* Theme Toggle Button */
+.theme-toggle {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    
+   
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 10px var(--shadow-color);
+    z-index: 1000;
+    transition: all 0.3s ease;
+  }
+  
+  .theme-toggle:hover {
+    transform: scale(1.1);
+  }
+  
+  .theme-toggle i {
+    font-size: 1.5rem;
+    color: var(--text-primary);
+  }
+  
+  
+  /* Theme Icons */
+  #lightIcon, #darkIcon {
+    font-size: 20px;
+    transition: opacity 0.3s ease;
+  }
+  
+  [data-theme="dark"] #lightIcon {
+    display: none;
+  }
+  
+  [data-theme="light"] #darkIcon {
+    display: none;
+  }
         </style>
 </head>
 
@@ -1006,7 +1050,7 @@
 
                 <div class="card-body">
 
-                
+
                     <img src="<%= user.profilePic || '/images/default-avatar.png' %>" alt="Profile Picture"
                         class="profile-pic mb-3 ">
                     <h3 class="fw-bold display-5 mb-2">
@@ -1170,8 +1214,7 @@
 
 
                         <!-- Follow Button -->
-                        <% if (user && user._id.toString() !==user._id.toString()) { %>
-                            <hr class="mx-auto" style="width: 80%;">
+                        <% if (user && user._id.toString() !== user._id.toString()) { %>                            <hr class="mx-auto" style="width: 80%;">
                             <form method="POST" action="/user/follow/<%= user._id %>">
                                 <button class="btn btn-follow btn-lg">
                                     <% if (currentUser.following.includes(user._id.toString())) { %>
@@ -1202,7 +1245,7 @@
 
         <!-- FontAwesome Icons -->
 
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> // Include Chart.js
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 
         <!-- Chart.js -->
@@ -1218,13 +1261,13 @@
             <%= JSON.stringify(user.following ? user.following.length : 0) %>
         ]
     }
-</script>
+        </script>
 
         <!-- Load Chart.js -->
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
         <!-- Chart Script -->
-        <script>
+        <script> // chart script
             document.addEventListener("DOMContentLoaded", function () {
                 // Parse user data safely
                 const userData = JSON.parse(document.getElementById("user-data").textContent);
@@ -1292,8 +1335,51 @@
                 });
             });
         </script>
+        <!-- <script> // toggle between light and dark mode
+            // Theme toggle system
+            const themeToggle = document.getElementById('themeToggle');
+            const lightIcon = document.getElementById('lightIcon');
+            const darkIcon = document.getElementById('darkIcon');
+            const html = document.documentElement;
+          
+            function getPreferredTheme() {
+              return localStorage.getItem('theme') ||
+                     (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+            }
+          
+            function setTheme(theme) {
+              html.setAttribute('data-theme', theme);
+              localStorage.setItem('theme', theme);
+          
+              // Toggle icons
+              if (lightIcon && darkIcon) {
+                lightIcon.style.display = theme === 'dark' ? 'none' : 'inline';
+                darkIcon.style.display = theme === 'dark' ? 'inline' : 'none';
+              }
+          
+              window.dispatchEvent(new CustomEvent('themeChange', { detail: { theme } }));
+            }
+          
+            setTheme(getPreferredTheme());
+          
+            if (themeToggle) {
+              themeToggle.addEventListener('click', () => {
+                const current = html.getAttribute('data-theme');
+                setTheme(current === 'dark' ? 'light' : 'dark');
+              });
+            }
+          
+            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+              if (!localStorage.getItem('theme')) {
+                setTheme(e.matches ? 'dark' : 'light');
+              }
+            });
+          
+            window.addEventListener('themeChange', e => setTheme(e.detail.theme));
+          </script> -->
 
         <%- include('./partials/footer') %>
+       
 
 </body>
 

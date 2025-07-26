@@ -1,762 +1,619 @@
 <!DOCTYPE html>
-<html lang="en">
-
-<head>
+<html lang="en" data-theme="">
+  <head>
     <%- include('./partials/header') %>
-        <style>
-            :root {
-                --bg-color-light: #ffffff;
-                --text-color-light: #000;
-                --card-bg-light: #f8f9fa;
-                --border-color-light: #ddd;
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+      /* Theme Variables */
+      :root {
+        --bg-color-light: #ffffff;
+        --text-color-light: #000;
+        --card-bg-light: #f8f9fa;
+        --border-color-light: #ddd;
+        --shadow-color-light: rgba(0, 0, 0, 0.1);
+        --accent-color-light: #007bff;
+        --accent-hover-light: #0056b3;
+        --font-family: 'Inter', 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 
-                --bg-color-dark: #1e1e1e;
-                --text-color-dark: #fff;
-                --card-bg-dark: #2a2a2a;
-                --border-color-dark: #444;
-            }
+        --bg-color-dark: #1a1a1a;
+        --text-color-dark: #ffffff;
+        --card-bg-dark: #2d2d2d;
+        --border-color-dark: #404040;
+        --shadow-color-dark: rgba(0, 0, 0, 0.3);
+        --accent-color-dark: #00b4ff;
+        --accent-hover-dark: #0095d9;
+      }
 
-            body {
-                background-color: #f0f4f8;
-                background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%23dddddd' fill-opacity='0.4'%3E%3Cpath opacity='.5' d='M96 95h4v1h-4v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9zm-1 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9z'/%3E%3Cpath d='M6 5V0H5v5H0v1h5v94h1V6h94V5H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-                font-family: 'Comic Neue', cursive;
-            }
+      * {
+        font-family: var(--font-family);
+      }
 
-            .blog-title {
-                font-weight: 700;
-                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-                animation: bounce 1s infinite alternate;
-            }
+      /* Apply theme variables */
+      [data-theme="light"] {
+        --bg-color: var(--bg-color-light);
+        --text-color: var(--text-color-light);
+        --card-bg: var(--card-bg-light);
+        --border-color: var(--border-color-light);
+        --shadow-color: var(--shadow-color-light);
+        --accent-color: var(--accent-color-light);
+        --accent-hover: var(--accent-hover-light);
+      }
 
-            @keyframes bounce {
-                from {
-                    transform: translateY(0);
-                }
+      [data-theme="dark"] {
+        --bg-color: var(--bg-color-dark);
+        --text-color: var(--text-color-dark);
+        --card-bg: var(--card-bg-dark);
+        --border-color: var(--border-color-dark);
+        --shadow-color: var(--shadow-color-dark);
+        --accent-color: var(--accent-color-dark);
+        --accent-hover: var(--accent-hover-dark);
+      }
 
-                to {
-                    transform: translateY(-5px);
-                }
-            }
+      /* Theme Toggle Button */
+      .theme-toggle {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background: var(--card-bg);
+        border: 2px solid var(--border-color);
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        box-shadow: 0 2px 10px var(--shadow-color);
+        z-index: 1000;
+        transition: all 0.3s ease;
+      }
 
-            .blog-image {
-                max-height: 400px;
-                width: 80%;
-                object-fit: cover;
-                transition: transform 0.5s ease;
-                filter: brightness(0.9);
-            }
+      .theme-toggle:hover {
+        transform: scale(1.1);
+      }
 
-            .blog-image:hover {
-                transform: scale(1.05);
-                filter: brightness(1);
-            }
+      .theme-toggle i {
+        font-size: 1.5rem;
+        color: var(--text-color);
+      }
 
+      /* Base styles with theme variables */
+      body {
+        background-color: var(--bg-color);
+        color: var(--text-color);
+        font-family: var(--font-family);
+        font-weight: 500;
+        transition: background-color 0.3s ease, color 0.3s ease;
+      }
 
-            .share-buttons a {
-                display: inline-flex;
-                align-items: center;
-                justify-content: center;
-                width: 40px;
-                height: 40px;
-                border-radius: 50%;
-                font-size: 16px;
-                color: white;
-                text-decoration: none;
-                transition: 0.5s;
-                margin: 5px 5px;
-                background-color: rgba(0, 0, 0, 0.1);
-            }
+      .blog-container {
+        background-color: var(--card-bg);
+        border: 1px solid var(--border-color);
+        box-shadow: 0 2px 10px var(--shadow-color);
+        transition: background-color 0.3s ease, border-color 0.3s ease;
+      }
 
-            .share-buttons a:hover {
-                transform: scale(1.3) rotate(360deg);
-            }
+      .blog-title {
+        color: var(--text-color);
+        font-weight: 800;
+        text-shadow: 2px 2px 4px var(--shadow-color);
+        transition: color 0.3s ease;
+      }
 
+      .theme-text {
+        color: var(--text-color);
+        font-weight: 600;
+        transition: color 0.3s ease;
+      }
 
+      .form-control {
+        background-color: var(--card-bg);
+        color: var(--text-color);
+        border: 1px solid var(--border-color);
+        transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+      }
 
-            .like-button {
-                display: flex;
-                align-items: center;
-                cursor: pointer;
-                font-size: 18px;
-                color: #dc3545;
-                border: none;
-                background: none;
-                transition: 0.3s ease-in-out;
-            }
+      .form-control::placeholder {
+        color: var(--text-color);
+        opacity: 0.6;
+      }
 
-            .like-button i {
-                font-size: 24px;
-                margin-right: 5px;
-                transition: 0.3s;
-            }
+      .blog-image {
+        max-height: 400px;
+        width: 80%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+        filter: brightness(0.9);
+      }
 
-            .like-button:hover i {
-                transform: scale(1.2) rotate(-20deg);
+      .blog-image:hover {
+        transform: scale(1.05);
+        filter: brightness(1);
+      }
 
-            }
+      .share-buttons a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        font-size: 16px;
+        color: white;
+        text-decoration: none;
+        transition: 0.5s;
+        margin: 5px 5px;
+        background-color: rgba(0, 0, 0, 0.1);
+      }
 
+      .share-buttons a:hover {
+        transform: scale(1.3) rotate(360deg);
+      }
 
-            .follow-btn {
-                padding: 8px 16px;
-                border-radius: 20px;
-                font-weight: bold;
-                cursor: pointer;
-                transition: 0.3s;
-                border: 2px solid #007bff;
-                background-color: #007bff;
-                color: white;
-            }
+      .like-button {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        font-size: 18px;
+        color: #dc3545;
+        border: none;
+        background: none;
+        transition: 0.3s ease-in-out;
+      }
 
-            .follow-btn.unfollow {
-                background-color: white;
-                color: #007bff;
-            }
+      .like-button i {
+        font-size: 24px;
+        margin-right: 5px;
+        transition: 0.3s;
+      }
 
-            pre {
-                white-space: pre-wrap;
-                /* Allows wrapping */
-                word-wrap: break-word;
-                /* Ensures long words break */
-                overflow-x: auto;
-                /* Allows horizontal scrolling only when needed */
-                max-width: 100%;
-                /* Prevents it from exceeding the container */
-            }
+      .like-button:hover i {
+        transform: scale(1.2) rotate(-20deg);
+      }
 
-            #progress-container {
-                position: fixed;
-                bottom: 0;
-                left: 0;
-                width: 100%;
-                height: 5px;
-                background: rgba(0, 0, 0, 0.1);
-                z-index: 1000;
-            }
+      .follow-btn {
+        padding: 8px 16px;
+        border-radius: 20px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.3s;
+        border: 2px solid #007bff;
+        background-color: #007bff;
+        color: white;
+      }
 
-            #progress-bar {
-                height: 5px;
-                width: 0%;
-                background: #ff6600;
-                /* Customize the color */
-                transition: width 0.2s ease-out;
-            }
+      .follow-btn.unfollow {
+        background-color: white;
+        color: #007bff;
+      }
 
-            .bookmark-btn {
-                background: none;
-                border: none;
-                font-size: 24px;
-                cursor: pointer;
-            }
+      pre {
+        white-space: pre-wrap;
+        /* Allows wrapping */
+        word-wrap: break-word;
+        /* Ensures long words break */
+        overflow-x: auto;
+        /* Allows horizontal scrolling only when needed */
+        max-width: 100%;
+        /* Prevents it from exceeding the container */
+      }
 
-            .bookmark-btn i {
-                color: #888;
-                transition: color 0.3s;
-            }
+      #progress-container {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 5px;
+        background: rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+      }
 
-            .bookmark-btn i.fa-solid {
-                color: #ff6600;
-                /* Change color when bookmarked */
-            }
+      #progress-bar {
+        height: 5px;
+        width: 0%;
+        background: #ff6600;
+        /* Customize the color */
+        transition: width 0.2s ease-out;
+      }
 
-            /* Default (Light Mode) */
-            .blog-title {
-                color: #333;
-                transition: color 0.3s ease;
-            }
+      .bookmark-btn {
+        background: none;
+        border: none;
+        font-size: 24px;
+        cursor: pointer;
+      }
 
-            /* Dark Mode */
-            [data-theme="dark"] .blog-title {
-                color: #fff;
-            }
+      .bookmark-btn i {
+        color: #888;
+        transition: color 0.3s;
+      }
 
-            .theme-toggle:hover {
-                transform: scale(1.1);
-            }
+      .bookmark-btn i.fa-solid {
+        color: #ff6600;
+        /* Change color when bookmarked */
+      }
 
-            .theme-toggle i {
-                font-size: 1.5rem;
-                color: var(--text-primary);
-            }
+      /* Default (Light Mode) */
+      .blog-title {
+        color: #333;
+        transition: color 0.3s ease;
+      }
 
+      /* Dark Mode */
+      [data-theme="dark"] .blog-title {
+        color: #fff;
+      }
 
-            /* Theme toggle button styles */
-            .theme-toggle {
-                position: fixed;
-                bottom: 20px;
-                right: 20px;
-                background: var(--card-bg);
-                border: 2px solid var(--border-color);
-                border-radius: 50%;
-                width: 50px;
-                height: 50px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                cursor: pointer;
-                box-shadow: 0 2px 10px var(--shadow-color);
-                z-index: 1000;
-                transition: all 0.3s ease;
-            }
+      .theme-toggle:hover {
+        transform: scale(1.1);
+      }
 
-            .blog-container {
-                background-color: var(--bg-color);
-                color: var(--text-color);
-                transition: background 0.3s ease, color 0.3s ease;
-            }
+      .theme-toggle i {
+        font-size: 1.5rem;
+        color: var(--text-primary);
+      }
 
+      .blog-container,
+      .alert,
+      .comment-container,
+      .follow-container {
+        background-color: var(--card-bg);
+        color: var(--text-color);
+        border: 1px solid var(--border-color);
+        transition: background 0.3s ease, color 0.3s ease, border 0.3s ease;
+      }
 
+      .bookmark-btn,
+      .like-button,
+      .follow-button {
+        background: transparent;
+        color: var(--text-color);
+        border: none;
+      }
 
-            .blog-body {
-                font-size: 1.1rem;
-                white-space: pre-wrap;
-            }
+      .bookmark-btn i,
+      .like-button i {
+        color: var(--text-color);
+      }
 
+      .share-buttons i {
+        transition: color 0.3s;
+      }
 
+      .form-control {
+        background-color: var(--card-bg);
+        color: var(--text-color);
+        border: 1px solid var(--border-color);
+      }
 
-            [data-theme="light"] {
-                --bg-color: var(--bg-color-light);
-                --text-color: var(--text-color-light);
-                --card-bg: var(--card-bg-light);
-                --border-color: var(--border-color-light);
-            }
+      .form-control::placeholder {
+        color: var(--text-color);
+        opacity: 0.6;
+      }
 
-            [data-theme="dark"] {
-                --bg-color: var(--bg-color-dark);
-                --text-color: var(--text-color-dark);
-                --card-bg: var(--card-bg-dark);
-                --border-color: var(--border-color-dark);
-            }
+      .theme-text {
+        color: var(--text-color);
+        transition: color 0.3s ease;
+      }
 
+      .bookmark-btn i {
+        color: var(--text-color);
+        transition: color 0.3s ease;
+      }
 
+      .theme-bg {
+        background-color: var(--bg-color);
+        transition: background-color 0.3s ease;
+      }
 
-            .blog-container,
-            .alert,
-            .comment-container,
-            .follow-container {
-                background-color: var(--card-bg);
-                color: var(--text-color);
-                border: 1px solid var(--border-color);
-                transition: background 0.3s ease, color 0.3s ease, border 0.3s ease;
-            }
+      .follow-button {
+        transition: background-color 0.3s ease, color 0.3s ease;
+      }
 
-            .bookmark-btn,
-            .like-button,
+      /* Blog Body Content Styling */
+      .blog-body {
+        white-space: pre-wrap;
+        word-wrap: break-word;
+        font-family: inherit;
+        line-height: 1.8;
+        color: var(--text-color);
+        background-color: var(--card-bg);
+        padding: 2rem;
+        border-radius: 8px;
+        margin: 20px 0;
+        letter-spacing: 0.3px;
+        font-weight: 500;
+      }
 
-            .follow-button {
-                background: transparent;
-                color: var(--text-color);
-                border: none;
-            }
+      /* Paragraph spacing within blog body */
+      .blog-body p {
+        margin-bottom: 1.5rem;
+        font-weight: 500;
+      }
 
-            .bookmark-btn i,
-            .like-button i {
-                color: var(--text-color);
-            }
+      /* Line break handling */
+      .blog-body br {
+        display: block;
+        content: "";
+        margin-top: 1rem;     /* Space after line breaks */
+      }
 
-            .share-buttons i {
-                transition: color 0.3s;
-            }
+      /* List styling within blog body */
+      .blog-body ul,
+      .blog-body ol {
+        margin: 1.5rem 0;
+        padding-left: 2rem;
+        font-weight: 500;
+      }
 
-            .form-control {
-                background-color: var(--card-bg);
-                color: var(--text-color);
-                border: 1px solid var(--border-color);
-            }
+      .blog-body li {
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+      }
 
-            .form-control::placeholder {
-                color: var(--text-color);
-                opacity: 0.6;
-            }
+      /* Blockquote styling */
+      .blog-body blockquote {
+        border-left: 4px solid var(--accent-color);
+        margin: 1.5rem 0;
+        padding: 1rem 2rem;
+        background-color: var(--card-bg);
+        font-style: italic;
+        font-weight: 600;
+      }
 
-            .theme-text {
-                color: var(--text-color);
-                transition: color 0.3s ease;
-            }
+      /* Code block styling */
+      .blog-body pre,
+      .blog-body code {
+        background-color: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 4px;
+        padding: 0.2rem 0.4rem;
+        font-family: monospace;
+      }
 
-            .bookmark-btn i {
-                color: var(--text-color);
-                transition: color 0.3s ease;
-            }
+      .blog-body pre {
+        padding: 1rem;
+        margin: 1.5rem 0;
+        overflow-x: auto;
+      }
 
-           
+      [data-theme="dark"] .blog-body {
+        background-color: var(--card-bg);
+        color: var(--text-primary);
+      }
+    </style>
+  </head>
 
-            .theme-bg {
-                background-color: var(--bg-color);
-                transition: background-color 0.3s ease;
-            }
+  <body class="p-2">
+    <%- include('./partials/nav', { searchQuery: searchQuery }) %> <% var
+    blogUrl="https://yourwebsite.com/blog/" + blog._id; %>
 
-            .follow-button {
-                transition: background-color 0.3s ease, color 0.3s ease;
-            }
-        </style>
-</head>
+    <div id="progress-container">
+      <div id="progress-bar"></div>
+    </div>
 
-<body class="p-2 ">
-    <%- include('./partials/nav', { searchQuery: searchQuery }) %>
-        <% var blogUrl="https://yourwebsite.com/blog/" + blog._id; %>
+    <!-- flash message -->
+    <div class="container mt-3">
+      <% if (success_msg.length> 0) { %>
+      <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <%= success_msg %>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="alert"
+          aria-label="Close"
+        ></button>
+      </div>
+      <% } %> <% if (error_msg.length> 0) { %>
+      <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <%= error_msg %>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="alert"
+          aria-label="Close"
+        ></button>
+      </div>
+      <% } %>
+    </div>
 
-            <div id="progress-container">
-                <div id="progress-bar"></div>
+    <!-- blog -->
+    <div class="container mt-4">
+      <article class="p-4 shadow rounded blog-container">
+        <h1 class="fw-bold blog-title"><%= blog.title %></h1>
+
+        <div class="d-flex justify-content-between align-items-center">
+          <h6 class="theme-text">
+            <i class="far fa-calendar-alt"></i>
+            <%= formattedDate %>
+          </h6>
+          <h6 class="theme-text">
+            <i class="far fa-eye"></i>
+            <%= blog.views %> views
+          </h6>
+        </div>
+
+        <!-- Bookmark -->
+        <div class="d-flex justify-content-end">
+          <button id="bookmark-btn" class="bookmark-btn">
+            <i
+              id="bookmark-icon"
+              class="<%= isBookmarked ? 'fa-solid' : 'fa-regular' %> fa-bookmark"
+            ></i>
+          </button>
+        </div>
+
+        <!-- Blog Cover Image -->
+        <div class="text-center mt-3">
+          <img
+            class="rounded shadow-lg img-fluid blog-image"
+            src="<%= blog.coverImageURL && blog.coverImageURL !== '' ? blog.coverImageURL : 'default-cover.png' %>"
+            alt="Blog Cover"
+          />
+        </div>
+
+        <!-- Blog Content -->
+        <div class="mt-4 lead blog-body">
+          <%- blog.body %>
+        </div>
+
+        <div class="d-flex gap-3 align-items-center mt-3">
+          <div class="d-flex gap-3 mr-auto">
+            <button
+              class="like-button"
+              id="likeButton"
+              data-blog-id="<%= blog._id %>"
+            >
+              <i
+                id="likeIcon"
+                class="<%= user && blog.likedBy.includes(user._id.toString()) ? 'fas text-primary' : 'far' %> fa-thumbs-up fs-4"
+              ></i>
+              <% if (user &&
+              blog.createdBy._id.toString()===user._id.toString()) { %>
+              <span id="likeCount" class="ms-2 likeCount theme-text fs-5">
+                <%= blog.likes || 0 %>
+              </span>
+              <% } %>
+            </button>
+
+            <!-- Share Buttons -->
+            <div class="share-buttons">
+              <a
+                href="https://www.facebook.com/sharer/sharer.php?u=<%= blogUrl %>"
+                target="_blank"
+              >
+                <i class="fab fa-facebook-square fa-2x text-primary"></i>
+              </a>
+              <a
+                href="https://twitter.com/intent/tweet?url=<%= blogUrl %>"
+                target="_blank"
+              >
+                <i class="fab fa-twitter-square fa-2x text-info"></i>
+              </a>
+              <a
+                href="https://www.linkedin.com/shareArticle?mini=true&url=<%= blogUrl %>"
+                target="_blank"
+              >
+                <i class="fab fa-linkedin fa-2x text-primary"></i>
+              </a>
+              <a href="https://wa.me/?text=<%= blogUrl %>" target="_blank">
+                <i class="fab fa-whatsapp fa-2x text-success"></i>
+              </a>
             </div>
-
-            <!-- flash message -->
-            <div class="container mt-3">
-                <% if (success_msg.length> 0) { %>
-                    <div class="alert alert-success alert-dismissible fade show" role="alert">
-                        <%= success_msg %>
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                    <% } %>
-
-                        <% if (error_msg.length> 0) { %>
-                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                                <%= error_msg %>
-                                    <button type="button" class="btn-close" data-bs-dismiss="alert"
-                                        aria-label="Close"></button>
-                            </div>
-                            <% } %>
-            </div>
-
-
-            <!-- blog -->
-            <div class="container mt-4">
-                <article class="p-4 shadow rounded blog-container">
-                    <h1 class="fw-bold blog-title">
-                        <%= blog.title %>
-                    </h1>
-
-                    <div class="d-flex justify-content-between align-items-center">
-                        <h6 class="theme-text"><i class="far fa-calendar-alt"></i>
-                            <%= formattedDate %>
-                        </h6>
-                        <h6 class="theme-text"><i class="far fa-eye"></i>
-                            <%= blog.views %> views
-                        </h6>
-                    </div>
-
-                    <!-- Bookmark -->
-                    <div class="d-flex justify-content-end">
-                        <button id="bookmark-btn" class="bookmark-btn">
-                            <i id="bookmark-icon"
-                                class="<%= isBookmarked ? 'fa-solid' : 'fa-regular' %> fa-bookmark"></i>
-                        </button>
-                    </div>
-
-                    <!-- Blog Cover Image -->
-                    <div class="text-center mt-3">
-                        <img class="rounded shadow-lg img-fluid blog-image"
-                            src="<%= blog.coverImageURL && blog.coverImageURL !== '' ? blog.coverImageURL : 'default-cover.png' %>"
-                            alt="Blog Cover">
-                    </div>
-
-                    <!-- Blog Content -->
-                    <pre class="mt-4 lead blog-body">
-                        <%= blog.body.split(" ").slice(0, 600).join(" ") %>
-                    </pre>
-
-                    <div class="d-flex gap-3 align-items-center mt-3">
-                        <div class="d-flex gap-3 mr-auto">
-                            <button class="like-button" id="likeButton" data-blog-id="<%= blog._id %>">
-                                <i id="likeIcon"
-                                    class="<%= user && blog.likedBy.includes(user._id.toString()) ? 'fas text-primary' : 'far' %> fa-thumbs-up fs-4"></i>
-                                <% if (user && blog.createdBy._id.toString()===user._id.toString()) { %>
-                                    <span id="likeCount" class="ms-2 likeCount theme-text fs-5">
-                                        <%= blog.likes || 0 %>
-                                    </span>
-                                    <% } %>
-                            </button>
-
-                            <!-- Share Buttons -->
-                            <div class="share-buttons">
-                                <a href="https://www.facebook.com/sharer/sharer.php?u=<%= blogUrl %>" target="_blank">
-                                    <i class="fab fa-facebook-square fa-2x text-primary"></i>
-                                </a>
-                                <a href="https://twitter.com/intent/tweet?url=<%= blogUrl %>" target="_blank">
-                                    <i class="fab fa-twitter-square fa-2x text-info"></i>
-                                </a>
-                                <a href="https://www.linkedin.com/shareArticle?mini=true&url=<%= blogUrl %>"
-                                    target="_blank">
-                                    <i class="fab fa-linkedin fa-2x text-primary"></i>
-                                </a>
-                                <a href="https://wa.me/?text=<%= blogUrl %>" target="_blank">
-                                    <i class="fab fa-whatsapp fa-2x text-success"></i>
-                                </a>
-                            </div>
-                        </div>
-
-                        <!-- View Profile -->
-                        <% if (!user || String(user._id) !==String(blog.createdBy._id)) { %>
-                            <a href="/user/profile/<%= blog.createdBy._id %>" class="btn btn-primary">View Profile</a>
-                            <% } %>
-                    </div>
-                </article>
-
-                <!-- Author & Follow Section -->
-               
-                <div
-                    class="mt-4 p-3 container d-flex p-1 bd-highlight user-select-none justify-content-between align-items-center">
-                    <% if (user && String(user._id) !==String(blog.createdBy._id)) { %>
-                        <form method="POST" action="/user/follow/<%= blog.createdBy._id %>">
-                            <button type="submit"
-                                class="btn follow-button <%= (user.following && user.following.includes(blog.createdBy._id)) ? 'btn-success' : 'btn-primary' %>">
-                                <%= (user.following && user.following.includes(blog.createdBy._id)) ? 'Followed'
-                                    : 'Follow' %>
-                            </button>
-                        </form>
-                        <% } %>
-                            <h5 class="ms-3 theme-text">@ <%= blog.createdBy.fullName %>
-                            </h5>
-                </div>
-
-            </div>
-
-
-            <!-- comments section -->
-            <div class="mt-4 p-3 container">
-                <label class="form-label fw-bold fs-3">Comments (<%= comments.length %>)</label>
-
-                <% if (user) { %>
-                    <form method="post" action="/blog/comment/<%= blog._id %>">
-                        <div class="d-flex gap-3">
-                            <input type="text" class="form-control" id="commentInput" placeholder="Leave a comment..."
-                                name="content" required />
-                            <button type="submit" class="btn btn-primary">Submit</button>
-                        </div>
-                    </form>
-                    <% } else { %>
-                        <p class="mt-2">Please <a href="/user/signin">login</a> to comment.</p>
-                        <% } %>
-            </div>
-
-            <!-- Display Comments -->
-            <div class="container mt-4">
-                <% comments.forEach(comment=> { %>
-                    <div class="d-flex justify-content-start theme-bg align-items-baseline p-2 mb-2 rounded">
-                        <div class="d-flex justify-content-start align-items-baseline gap-2 p-2 rounded">
-                            <h6 class="fst-italic theme-text">
-                                <%= comment.createdBy.fullName %>:
-                            </h6>
-                            <p class="fw-bold fst-italic theme-text">
-                                <%= comment.content %>
-                            </p>
-                        </div>
-                        <p class="fw-lighter fst-italic theme-text ms-auto">
-                            <%= moment(comment.createdAt).fromNow() %>
-                        </p>
-                    </div>
-                    <% }) %>
-            </div>
-
-
-
-
-            <%- include('./partials/footer') %>
-
-                <script> // For Like Button
-                    document.addEventListener("DOMContentLoaded", function () {
-                        const likeButton = document.getElementById("likeButton");
-                        const likeIcon = document.getElementById("likeIcon");
-                        const likeCount = document.getElementById("likeCount");
-
-                        if (likeButton) {
-                            likeButton.addEventListener("click", async function () {
-                                const blogId = this.getAttribute("data-blog-id");
-
-                                try {
-                                    const response = await fetch(`/blog/like/${blogId}`, {
-                                        method: "POST",
-                                        headers: { "Content-Type": "application/json" },
-                                    });
-
-                                    const data = await response.json();
-                                    if (data.success) {
-                                        // ✅ Toggle like button UI
-                                        likeIcon.classList.toggle("fas", data.liked);
-                                        likeIcon.classList.toggle("far", !data.liked);
-
-                                        // ✅ Update like count
-                                        likeCount.textContent = data.likes;
-                                    } else {
-                                        alert("Failed to like blog. Please try again.");
-                                    }
-                                } catch (error) {
-                                    console.error("Error liking blog:", error);
-                                }
-                            });
-                        }
-                    });
-                </script>
-
-                <script> // For Follow Button
-                    document.addEventListener("DOMContentLoaded", function () {
-                        const followButton = document.getElementById("followBtn");
-
-                        if (followButton) {
-                            followButton.addEventListener("click", async function () {
-                                const userId = this.getAttribute("data-user-id");
-
-                                try {
-                                    const response = await fetch(`/follow/${userId}`, {
-                                        method: "POST",
-                                        headers: { "Content-Type": "application/json" },
-                                    });
-
-                                    const data = await response.json();
-                                    if (data.success) {
-                                        this.textContent = data.following ? "Unfollow" : "Follow";
-                                        this.classList.toggle("unfollow", data.following);
-                                    } else {
-                                        alert(data.message);
-                                    }
-                                } catch (error) {
-                                    console.error("Error following/unfollowing:", error);
-                                }
-                            });
-                        }
-                    });
-                </script>
-
-                <script> // For Bad Words
-
-                    document.addEventListener("DOMContentLoaded", function () {
-                        const commentForm = document.querySelector("form[action^='/blog/comment/']");
-                        if (commentForm) {
-                            commentForm.addEventListener("submit", function (event) {
-                                const submitButton = commentForm.querySelector("button[type='submit']");
-                                submitButton.disabled = true;
-                            });
-                        }
-                    });
-
-                    document.addEventListener("DOMContentLoaded", function () {
-                        console.log("✅ DOM Loaded - Script Running...");
-
-                        const commentForm = document.querySelector("form[action^='/blog/comment/']");
-                        const commentInput = document.getElementById("commentInput");
-
-                        if (!commentForm) {
-                            console.error("❌ Comment form not found!");
-                            return;
-                        }
-
-                        if (!commentInput) {
-                            console.error("❌ Comment input field not found!");
-                            return;
-                        }
-
-                        let badToGood = {
-                            "stupid": "smart",
-                            "ugly": "beautiful",
-                            "hate": "love",
-                            "idiot": "genius",
-                            "dumb": "brilliant",
-                            "bad": "awesome",
-                            "worst": "best",
-                            "loser": "winner",
-                            "trash": "treasure",
-                            "fool": "wise",
-                            "boring": "exciting",
-                            "lazy": "hardworking",
-                            "weak": "strong",
-                            "annoying": "pleasant",
-                            "failure": "success",
-                            "useless": "valuable",
-                            "negative": "positive",
-                            "sucks": "rocks",
-                            "disgusting": "delightful",
-                            "jerk": "kind person",
-                            "pathetic": "admirable",
-                            "worthless": "priceless",
-                            "moron": "intelligent",
-                            "dirtbag": "gentleman",
-                            "gross": "wonderful",
-                            "creepy": "friendly",
-                            "rude": "polite",
-                            "arrogant": "humble",
-                            "nasty": "pleasant",
-                            "pervert": "respectful person",
-                            "lame": "cool",
-                            "stubborn": "determined",
-                            "hypocrite": "honest person",
-                            "evil": "good-hearted",
-                            "insane": "creative",
-                            "cocky": "confident",
-                            "failure": "achiever",
-                            "mean": "kind",
-                            "ignorant": "knowledgeable",
-                            "selfish": "generous",
-                            "heartless": "compassionate",
-                            "stinky": "fresh",
-                            "brainless": "thoughtful",
-                            "coward": "brave",
-                            "disrespectful": "courteous",
-                            "snobby": "modest",
-                            "gloomy": "cheerful",
-                            "freak": "unique",
-                            "dirty": "clean",
-                            "reckless": "careful",
-                            "lazy": "industrious",
-                            "pessimistic": "optimistic",
-                            "annoying": "charming",
-                            "manipulative": "trustworthy",
-                            "greedy": "generous",
-                            "clumsy": "graceful",
-                            "untrustworthy": "reliable",
-                            "jealous": "supportive",
-                            "pushy": "persuasive",
-                            "rough": "gentle",
-                            "crazy": "brilliant",
-                            "childish": "mature",
-                            "rowdy": "peaceful",
-                            "inconsiderate": "thoughtful",
-                            "vindictive": "forgiving",
-                            "harsh": "gentle",
-                            "careless": "responsible",
-                            "fuck": "love",
-                            "tits": "good",
-                        };
-
-                        // Function to replace bad words in comment
-                        function replaceBadWords(text) {
-                            if (!text) return "";
-                            return text
-                                .split(" ")
-                                .map(word => badToGood[word.toLowerCase()] || word) // Replace words if found
-                                .join(" ");
-                        }
-
-
-
-                        // Event Listener for Comment Form Submission
-                        commentForm.addEventListener("submit", function (event) {
-                            console.log("📨 Comment Submitted...");
-
-                            let filteredText = replaceBadWords(commentInput.value);
-                            console.log("📝 Filtered Comment:", filteredText);
-
-                            commentInput.value = filteredText; // Replace input text before submission
-                        });
-                    });
-                </script>
-
-                <script> // Progress Bar
-                    // Function to update the progress bar
-                    window.onscroll = function () {
-                        let scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
-                        let scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-                        let progress = (scrollTop / scrollHeight) * 100;
-                        document.getElementById("progress-bar").style.width = progress + "%";
-                    };
-                </script>
-
-                <script> // Bookmark
-                    document.addEventListener("DOMContentLoaded", async () => {
-                        const blogId = "<%= blog._id %>";
-                        const bookmarkBtn = document.getElementById("bookmark-btn");
-                        const bookmarkIcon = document.getElementById("bookmark-icon");
-
-                        // Check if the blog is bookmarked
-                        const response = await fetch(`/user/check-bookmark/${blogId}`);
-                        const data = await response.json();
-
-                        if (data.isBookmarked) {
-                            bookmarkIcon.classList.remove("fa-regular");
-                            bookmarkIcon.classList.add("fa-solid");
-                        }
-
-                        // Handle bookmark button click
-                        bookmarkBtn.addEventListener("click", async () => {
-                            const res = await fetch(`/blog/bookmark/${blogId}`, { method: "POST" });
-                            const result = await res.json();
-
-                            if (result.bookmarked) {
-                                bookmarkIcon.classList.remove("fa-regular");
-                                bookmarkIcon.classList.add("fa-solid");
-                            } else {
-                                bookmarkIcon.classList.remove("fa-solid");
-                                bookmarkIcon.classList.add("fa-regular");
-                            }
-                        });
-                    });
-                </script>
-
-                <script> //  btn for theme Mode
-                    // Function to apply theme
-
-                    // Theme handling
-                    const themeToggle = document.getElementById('themeToggle');
-                    const lightIcon = document.getElementById('lightIcon');
-                    const darkIcon = document.getElementById('darkIcon');
-                    const html = document.documentElement;
-
-                    // Check for saved theme preference
-                    const getPreferredTheme = () => {
-                        const savedTheme = localStorage.getItem('theme');
-                        if (savedTheme) {
-                            return savedTheme;
-                        }
-                        return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-                    };
-
-                    // Apply theme
-                    const setTheme = (theme) => {
-                        html.setAttribute('data-theme', theme);
-                        localStorage.setItem('theme', theme);
-
-                        // Update icons
-                        if (theme === 'dark') {
-                            lightIcon.style.display = 'none';
-                            darkIcon.style.display = 'inline';
-                        } else {
-                            lightIcon.style.display = 'inline';
-                            darkIcon.style.display = 'none';
-                        }
-
-                        // Dispatch event for navbar
-                        window.dispatchEvent(new CustomEvent('themeChange', { detail: { theme } }));
-                    };
-
-                    // Initialize theme
-                    setTheme(getPreferredTheme());
-
-                    // Toggle theme on button click
-                    themeToggle.addEventListener('click', () => {
-                        const currentTheme = html.getAttribute('data-theme');
-                        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-                        setTheme(newTheme);
-                    });
-
-                    // Listen for system theme changes
-                    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
-                        if (!localStorage.getItem('theme')) {
-                            setTheme(e.matches ? 'dark' : 'light');
-                        }
-                    });
-
-                    // Listen for theme changes from navbar
-                    window.addEventListener('themeChange', (e) => {
-                        setTheme(e.detail.theme);
-                    });
-                </script>
-                <script> // Apply theme
-                    function applyTheme(theme) {
-                        document.documentElement.setAttribute("data-theme", theme);
-                        localStorage.setItem("theme", theme);
-                    }
-
-                    function initializeTheme() {
-                        const savedTheme = localStorage.getItem("theme") || "light";
-                        applyTheme(savedTheme);
-                    }
-
-                    window.addEventListener("themeChange", (event) => {
-                        applyTheme(event.detail.theme);
-                    });
-
-                    initializeTheme();
-                </script>
-
-
-</body>
-
+          </div>
+
+          <!-- View Profile -->
+          <% if (!user || String(user._id) !==String(blog.createdBy._id)) { %>
+          <a
+            href="/user/profile/<%= blog.createdBy._id %>"
+            class="btn btn-primary"
+            >View Profile</a
+          >
+          <% } %>
+        </div>
+      </article>
+
+      <!-- Author & Follow Section -->
+      <div
+        class="mt-4 p-3 container d-flex p-1 bd-highlight user-select-none justify-content-between align-items-center"
+      >
+        <% if (user && String(user._id) !==String(blog.createdBy._id)) { %>
+        <form method="POST" action="/user/follow/<%= blog.createdBy._id %>">
+          <button
+            type="submit"
+            class="btn follow-button <%= (user.following && user.following.includes(blog.createdBy._id)) ? 'btn-success' : 'btn-primary' %>"
+          >
+            <%= (user.following && user.following.includes(blog.createdBy._id))
+            ? 'Followed' : 'Follow' %>
+          </button>
+        </form>
+        <% } %>
+        <h5 class="ms-3 theme-text">@ <%= blog.createdBy.fullName %></h5>
+      </div>
+    </div>
+
+    <!-- comments section -->
+    <div class="mt-4 p-3 container">
+      <label class="form-label fw-bold fs-3"
+        >Comments (<%= comments.length %>)</label
+      >
+
+      <% if (user) { %>
+      <form method="post" action="/blog/comment/<%= blog._id %>">
+        <div class="d-flex gap-3">
+          <input
+            type="text"
+            class="form-control"
+            id="commentInput"
+            autocomplete="off"
+            placeholder="Leave a comment..."
+            name="content"
+            required
+          />
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+      </form>
+      <% } else { %>
+      <p class="mt-2">Please <a href="/user/signin">login</a> to comment.</p>
+      <% } %>
+    </div>
+
+    <!-- Display Comments -->
+    <div class="container mt-4">
+      <% comments.forEach(comment=> { %>
+      <div
+        class="d-flex justify-content-start theme-bg align-items-baseline p-2 mb-2 rounded"
+      >
+        <div
+          class="d-flex justify-content-start align-items-baseline gap-2 p-2 rounded"
+        >
+          <h6 class="fst-italic theme-text">
+            <%= comment.createdBy.fullName %>:
+          </h6>
+          <p class="fw-bold fst-italic theme-text"><%= comment.content %></p>
+        </div>
+        <p class="fw-lighter fst-italic theme-text ms-auto">
+          <%= moment(comment.createdAt).fromNow() %>
+        </p>
+      </div>
+      <% }) %>
+    </div>
+
+    <%- include('./partials/footer') %>
+
+    <!-- Theme Toggle Button -->
+   
+
+    <script> // THEME TOGGLE SCRIPT
+      (function () {
+        const root = document.documentElement;
+        const icon = document.getElementById('themeIcon');
+        const currentTheme = localStorage.getItem('theme');
+
+        function applyTheme(theme) {
+          root.setAttribute('data-theme', theme);
+          localStorage.setItem('theme', theme);
+          if (icon) {
+            icon.classList.remove('fa-moon', 'fa-sun');
+            icon.classList.add(theme === 'dark' ? 'fa-sun' : 'fa-moon');
+          }
+        }
+
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (currentTheme === 'dark' || (!currentTheme && prefersDark)) {
+          applyTheme('dark');
+        } else {
+          applyTheme('light');
+        }
+
+        if (icon) {
+          icon.parentElement.addEventListener('click', () => {
+            const current = root.getAttribute('data-theme');
+            const newTheme = current === 'dark' ? 'light' : 'dark';
+            applyTheme(newTheme);
+          });
+        }
+      })();
+    </script>
+  </body>
 </html>

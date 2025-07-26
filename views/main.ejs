@@ -3,6 +3,9 @@
 <head>
     <%- include('./partials/header') %>
     <title>Home - Blogify</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="/css/theme-toggle.css">
     <style>
         /* Root Variables */
         :root {
@@ -11,12 +14,33 @@
             --accent: #45b7d1;
             --dark: #2d3436;
             --light: #f8f9fa;
+            --bg-color-light: #ffffff;
+            --text-color-light: #000;
+            --card-bg-light: #f8f9fa;
+            --border-color-light: #ddd;
+            --bg-color-dark: #1e1e1e;
+            --text-color-dark: #fff;
+            --card-bg-dark: #2a2a2a;
+            --border-color-dark: #444;
+            --font-family: 'Inter', 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            --bg-color: #f5f5f5;
+            --text-color: #333;
+            --card-bg: #fff;
+            --border-color: #ddd;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            font-family: var(--font-family);
         }
 
         body {
-            font-family: 'Poppins', sans-serif;
+            font-family: var(--font-family);
             overflow-x: hidden;
-            background-color: transparent;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: background-color 0.3s ease, color 0.3s ease;
+            font-weight: 500;
         }
 
         /* Background Cartoon Elements */
@@ -240,7 +264,7 @@
 
         .hero-title {
             font-size: 4.5rem;
-            font-weight: 800;
+            font-weight: 900;
             margin-bottom: 1.5rem;
             background: linear-gradient(45deg, var(--primary), var(--secondary), var(--accent));
             -webkit-background-clip: text;
@@ -253,6 +277,7 @@
         .hero-subtitle {
             font-size: 1.5rem;
             margin-bottom: 2rem;
+            font-weight: 600;
             animation: fadeInUp 1s ease 0.3s both;
         }
 
@@ -293,7 +318,7 @@
 
         .trending-title {
             font-size: 2.5rem;
-            font-weight: 700;
+            font-weight: 800;
             display: inline-block;
             padding-bottom: 0.5rem;
             position: relative;
@@ -405,7 +430,7 @@
 
         .featured-section-title {
             font-size: 2.5rem;
-            font-weight: 700;
+            font-weight: 800;
             display: inline-block;
             padding-bottom: 0.5rem;
             position: relative;
@@ -524,6 +549,7 @@
             margin-bottom: 1.5rem;
             flex: 1;
             line-height: 1.6;
+            font-weight: 500;
         }
 
         .featured-link {
@@ -609,6 +635,7 @@
         }
 
         .category-card h4 {
+            font-weight: 700;
             transition: all 0.3s ease;
         }
 
@@ -629,7 +656,7 @@
 
         .newsletter-title {
             font-size: 2.5rem;
-            font-weight: 700;
+            font-weight: 800;
             margin-bottom: 1rem;
         }
 
@@ -734,6 +761,49 @@
 
         .flying-paper {
             animation-delay: 2.5s;
+        }
+
+        /* Theme Toggle Button */
+        .theme-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--card-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 10px var(--shadow-color);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        .theme-toggle i {
+            font-size: 1.5rem;
+            color: var(--text-color);
+        }
+
+        /* Theme-specific styles */
+        [data-theme="light"] {
+            --bg-color: var(--bg-color-light);
+            --text-color: var(--text-color-light);
+            --card-bg: var(--card-bg-light);
+            --border-color: var(--border-color-light);
+        }
+
+        [data-theme="dark"] {
+            --bg-color: var(--bg-color-dark);
+            --text-color: var(--text-color-dark);
+            --card-bg: var(--card-bg-dark);
+            --border-color: var(--border-color-dark);
         }
     </style>
 </head>
@@ -874,6 +944,12 @@
 
     <%- include('./partials/footer') %>
 
+    <!-- Theme Toggle Button -->
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+        <i class="fas fa-moon"></i>
+    </button>
+
+    <script src="/js/theme-toggle.js"></script>
     <script> 
         // Scroll Reveal Animation
         const scrollReveal = document.querySelectorAll('.scroll-reveal');
@@ -931,6 +1007,6 @@
         
         // Initial animation
         animateCartoonElements();
-    </script>
+  </script>
 </body>
 </html>

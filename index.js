@@ -8,6 +8,7 @@ const svgCaptcha = require("svg-captcha");
 const mongoose = require("mongoose");
 const moment = require("moment");
 const flash = require("connect-flash");
+const aiRoute = require("./routes/ai");
 const dotenv = require("dotenv");
 dotenv.config();
 const socketio = require("socket.io");
@@ -28,7 +29,7 @@ const notificationsRoute = require("./routes/notifications");
 const { ServerApiVersion } = require("mongodb");
 
 // MongoDB Connection
-const URI = "mongodb+srv://root:root@cluster0.mqukwzc.mongodb.net/";
+const URI = "mongodb://127.0.0.1:27017/blogiFy";
 mongoose
   .connect(URI)
   .then(() => console.log("✅ MongoDB connected successfully."))
@@ -54,25 +55,39 @@ app.use((req, res, next) => {
 });
 
 
-const store = MongoStore.create({
+// const store = MongoStore.create({
+//   mongoUrl: URI,
+//   crypto: { secret: "superman@" },
+//   touchAfter: 24 * 3600,
+//   collection: "sessions",
+// });
+
+// store.on("error", function (error) {
+//   console.error("❌ Error connecting to MongoDB:", error.message);
+// });
+
+// Add session store error handling
+const sessionStore = MongoStore.create({
   mongoUrl: URI,
-  crypto: { secret: "superman@" },
-  touchAfter: 24 * 3600,
-  collection: "sessions",
+  ttl: 24 * 60 * 60,
+  crypto: {
+    secret: process.env.SESSION_SECRET || 'your-secret-key'
+  },
+  autoRemove: 'native',
+  touchAfter: 24 * 3600
 });
 
-store.on("error", function (error) {
-  console.error("❌ Error connecting to MongoDB:", error.message);
+sessionStore.on('error', function(error) {
+  console.error('Session Store Error:', error);
 });
 
 // Session Configuration
 app.use(
   session({
-    store,
-    secret: "superman@",
+    secret: process.env.SESSION_SECRET || 'your-secret-key',
     resave: false,
     saveUninitialized: true,
-    cookie: { maxAge: 60000, secure: false },
+    store: sessionStore
   })
 );
 
@@ -214,15 +229,17 @@ module.exports = { io };
 // CAPTCHA Route
 app.get("/captcha", (req, res) => {
   const captcha = svgCaptcha.create({
-    size: 6,
-    noise: 2,
+    size: 5,
+    noise: 1,
     color: true,
-    background: "#ddd",
+    background: "#f0f0f0",
+    width: 150,
+    height: 50,
+    fontSize: 50,
+    charPreset: 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789',
   });
 
   req.session.captcha = captcha.text;
-  // console.log("🟢 Generated CAPTCHA:", captcha.text);
-
   res.type("svg").send(captcha.data);
 });
 
@@ -245,6 +262,7 @@ app.use("/user", userRoute);
 app.use("/blog", blogRoute);
 app.use("/subscription", subscriptionRoute);
 app.use("/notifications", notificationsRoute);
+app.use("/ai", aiRoute);
 
 
 // 404 Page

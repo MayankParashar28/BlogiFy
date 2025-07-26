@@ -11,6 +11,7 @@ const { generateBlogWithAI } = require("../utils/aiHelper");
 const { error } = require("console");
 const Notification = require("../models/Notification");
 const { response } = require("express");
+const authencation = "../Services/authencation.js"
 const dotenv = require("dotenv");
 dotenv.config(); 
 
@@ -118,49 +119,37 @@ router.post("/bookmark/:blogId", async (req, res) => {
 
 // Like or Dislike a Blog Post
 router.post("/like/:blogId", async (req, res) => {
+  if (!req.user) {
+    if (req.headers.accept && req.headers.accept.includes("text/html")) {
+      return res.redirect("/login");
+    }
+    return res.status(401).json({ success: false, message: "Please log in to like a blog." });
+  }
+
   try {
-    const blog = await Blog.findById(req.params.blogId).populate("createdBy"); // ✅ Populate blog owner details
+    const blog = await Blog.findById(req.params.blogId).populate("createdBy");
+    if (!blog) return res.status(404).json({ success: false, message: "Blog not found" });
 
-    if (!blog) {
-      return res.status(404).json({ success: false, message: "Blog not found" });
-    }
-
-    const userId = req.user ? req.user._id.toString() : null;
-    if (!userId) {
-      return res.status(401).json({ success: false, message: "Unauthorized" });
-    }
-
+    const userId = req.user._id.toString();
     const likedIndex = blog.likedBy.indexOf(userId);
     const isNewLike = likedIndex === -1;
 
-    if (isNewLike) {
-      blog.likedBy.push(userId);
-    } else {
-      blog.likedBy.splice(likedIndex, 1);
-    }
-
+    // Toggle like
+    isNewLike ? blog.likedBy.push(userId) : blog.likedBy.splice(likedIndex, 1);
     blog.likes = blog.likedBy.length;
     await blog.save();
 
-    // ✅ Check if `createdBy` exists before creating a notification
-    if (!blog.createdBy || !blog.createdBy._id) {
-      console.error("❌ Error: blog.createdBy is undefined!");
-      return res.status(500).json({ success: false, message: "Blog owner not found" });
+    // Send notification if another user liked/unliked
+    if (isNewLike && blog.createdBy && blog.createdBy._id.toString() !== userId) {
+      await Notification.create({
+        userId: blog.createdBy._id.toString(),
+        senderId: userId,
+        message: `${req.user.fullName} ${isNewLike ? "liked" : "unliked"} your blog.`,
+        type: "like",
+        read: false,
+        createdAt: new Date(),
+      });
     }
-
-    // ✅ Send Notification for Like (Even if it's the user's own blog)
-    const notification = new Notification({
-      userId: blog.createdBy._id.toString(), // ✅ Use `createdBy`
-      senderId: userId, 
-      message: isNewLike 
-        ? `${req.user.fullName} liked your blog.` 
-        : `${req.user.fullName} unliked your blog.`,
-      type: "like",
-      read: false,
-      createdAt: new Date(),
-    });
-
-    await notification.save();
 
     res.json({ success: true, liked: isNewLike, likes: blog.likes });
 

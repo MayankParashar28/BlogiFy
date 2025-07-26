@@ -1,244 +1,409 @@
-
 <head>
   <%- include('./partials/header') %>
-  <title>Write Your Blog</title>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <title>Write Your Blog</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
 
-<style>
-  body {
-    background-color: #f9f7f2;
-    background-image: url('/api/placeholder/1920/1080');
-    background-size: cover;
-    background-attachment: fixed;
-    position: relative;
-    font-family: 'Comic Sans MS', 'Marker Felt', sans-serif;
-  }
-
-  /* Cartoon overlay elements */
-  body::before {
-    content: "";
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: 
-      url('/api/placeholder/200/200') no-repeat top left / 200px,  /* Cartoon character */
-      url('/api/placeholder/150/150') no-repeat bottom right / 150px, /* Pencil icon */
-      url('/api/placeholder/100/100') no-repeat top right / 100px; /* Thought bubble */
-    opacity: 0.2;
-    pointer-events: none;
-    z-index: -1;
-  }
-
-  .big-container {
-    background-color: rgba(255, 255, 255, 0.95);
-    border: 3px solid #3a86ff !important;
-    border-radius: 15px !important;
-    box-shadow: 8px 8px 0px #3a86ff !important;
-    position: relative;
-    overflow: hidden;
-  }
+ <style>
   
-  .big-container::before {
-    content: "";
-    position: absolute;
-    top: -30px;
-    right: -30px;
-    width: 150px;
-    height: 150px;
-    background: url('/api/placeholder/150/150') no-repeat;
-    background-size: contain;
-    opacity: 0.2;
-    transform: rotate(15deg);
-    z-index: 0;
-    pointer-events: none;
-  }
+/* Theme Toggle Button */
+      .theme-toggle {
+        display: none !important;
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background: #ffffffcc;
+        border: 2px solid var(--border-color);
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        box-shadow: 0 2px 10px var(--shadow-color);
+        z-index: 9999;
+        transition: all 0.3s ease;
+      }
+   
 
-  textarea, input.form-control {
-    background-color: #fffdf7 !important;
-    border: 2px dashed #ff9e00 !important;
-    border-radius: 10px !important;
-    font-size: 16px;
-    padding: 12px !important;
-    box-shadow: 3px 3px 0px #ffca3a;
-    font-family: 'Comic Sans MS', 'Marker Felt', sans-serif;
-  }
+    /* Floating cartoon elements */
+    body::before {
+      content: "✨🎨📝💡🌟";
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      font-size: 2rem;
+      animation: float 6s ease-in-out infinite;
+      z-index: 1;
+    }
 
-  textarea {
-    width: 100%;
-    min-height: 150px;
-    resize: none;
-    overflow-y: hidden;
-    text-align: left;
-  }
+    body::after {
+      content: "🚀📚🎯💭🎪";
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      font-size: 2rem;
+      animation: float 6s ease-in-out infinite reverse;
+      z-index: 1;
+    }
 
-  textarea:focus, input.form-control:focus {
-    border-color: #3a86ff !important;
-    box-shadow: 3px 3px 0px #3a86ff;
-  }
+    @keyframes float {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-20px) rotate(5deg); }
+    }
 
-  label.form-label {
-    font-weight: bold;
-    color: #3a86ff;
-    font-size: 18px;
-    position: relative;
-    padding-left: 28px;
-  }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 20px;
+      position: relative;
+      z-index: 2;
+    }
 
-  label.form-label::before {
-    content: "✏️";
-    position: absolute;
-    left: 0;
-    top: 0;
-  }
+    .form-section-title {
+      text-align: center;
+      font-family: 'Fredoka One', cursive;
+      font-size: 3rem;
+      color: #fff;
+      text-shadow: 3px 3px 0px #ff6b6b, 6px 6px 0px #4ecdc4;
+      margin-bottom: 30px;
+      animation: bounce 2s infinite;
+    }
 
-  .btn-primary {
-    background-color: #3a86ff;
-    border: none;
-    border-radius: 8px;
-    padding: 10px 25px;
-    font-weight: bold;
-    box-shadow: 4px 4px 0px #1a56a0;
-    transition: all 0.2s ease;
-    position: relative;
-    overflow: hidden;
-  }
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+      40% { transform: translateY(-10px); }
+      60% { transform: translateY(-5px); }
+    }
 
-  .btn-primary:hover {
-    transform: translate(-2px, -2px);
-    box-shadow: 6px 6px 0px #1a56a0;
-  }
+    .big-container {
+      background: linear-gradient(145deg, #ffffff, #f0f0f0);
+      border-radius: 25px;
+      box-shadow: 
+        20px 20px 40px rgba(0,0,0,0.1),
+        -20px -20px 40px rgba(255,255,255,0.8),
+        inset 5px 5px 10px rgba(0,0,0,0.05);
+      padding: 40px;
+      position: relative;
+      overflow: hidden;
+    }
 
-  .btn-primary:active {
-    transform: translate(2px, 2px);
-    box-shadow: 2px 2px 0px #1a56a0;
-  }
+    .big-container::before {
+      content: "🎨";
+      position: absolute;
+      top: -20px;
+      right: -20px;
+      font-size: 8rem;
+      opacity: 0.1;
+      transform: rotate(15deg);
+      z-index: 0;
+    }
 
-  .btn-primary::after {
-    content: "✨";
-    position: absolute;
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-  }
+    .big-container::after {
+      content: "📝";
+      position: absolute;
+      bottom: -30px;
+      left: -30px;
+      font-size: 10rem;
+      opacity: 0.1;
+      transform: rotate(-15deg);
+      z-index: 0;
+    }
 
-  .category-card {
-    background-color: white;
-    border: 2px solid #8ecae6 !important;
-    border-radius: 10px !important;
-    transition: all 0.2s ease;
-    font-weight: bold;
-    padding: 12px 10px !important;
-    margin-bottom: 10px;
-    box-shadow: 3px 3px 0px #8ecae6;
-  }
+    .form-label {
+      font-weight: 700;
+      color: #2c3e50;
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+      display: block;
+      position: relative;
+      padding-left: 35px;
+    }
 
-  .category-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 3px 6px 0px #8ecae6;
-  }
+    .form-label::before {
+      position: absolute;
+      left: 0;
+      top: 0;
+      font-size: 1.5rem;
+    }
 
-  input[type="radio"]:checked + .category-card {
-    background-color: #8ecae6 !important;
-    color: white !important;
-    border-color: #3a86ff !important;
-    box-shadow: 3px 3px 0px #3a86ff;
-  }
+    .form-label[for="coverImage"]::before { content: "📸"; }
+    .form-label[for="title"]::before { content: "✏️"; }
+    .form-label[for="body"]::before { content: "📖"; }
+    .form-label[for="tags"]::before { content: "#️⃣"; }
 
-  input[type="file"] {
-    background-color: #fffdf7 !important;
-    border: 2px dashed #ff9e00 !important;
-    border-radius: 10px !important;
-    font-size: 16px;
-    padding: 10px !important;
-    box-shadow: 3px 3px 0px #ffca3a;
-  }
+    .form-control {
+      border: 3px solid #ff6b6b;
+      border-radius: 15px;
+      padding: 15px 20px;
+      font-size: 1.1rem;
+      background: linear-gradient(145deg, #ffffff, #f8f9fa);
+      box-shadow: 
+        inset 3px 3px 6px rgba(0,0,0,0.1),
+        inset -3px -3px 6px rgba(255,255,255,0.8);
+      transition: all 0.3s ease;
+      position: relative;
+      z-index: 1;
+    }
 
-  .form-section-title {
-    position: relative;
-    margin-bottom: 20px;
-    color: #ff6b6b;
-    font-weight: bold;
-    text-align: center;
-    font-size: 24px;
-    text-shadow: 1px 1px 0px #ff8fab;
-  }
+    .form-control:focus {
+      outline: none;
+      border-color: #4ecdc4;
+      box-shadow: 
+        0 0 20px rgba(78, 205, 196, 0.3),
+        inset 3px 3px 6px rgba(0,0,0,0.1);
+      transform: translateY(-2px);
+    }
 
-  .form-section-title::after {
-    content: "";
-    position: absolute;
-    bottom: -5px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 100px;
-    height: 3px;
-    background-color: #ff8fab;
-    border-radius: 5px;
-  }
+    textarea.form-control {
+      min-height: 200px;
+      resize: vertical;
+      font-family: 'Comic Neue', cursive;
+    }
 
-  #word-count {
-    font-weight: bold;
-    color: #3a86ff;
-  }
+    .section-divider {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 30px 0;
+      position: relative;
+    }
 
-  /* Add speech bubble for word count */
-  .word-count-bubble {
-    position: relative;
-    display: inline-block;
-    background-color: #fff;
-    padding: 8px 15px;
-    border-radius: 20px;
-    border: 2px solid #3a86ff;
-    margin-left: 10px;
-    box-shadow: 3px 3px 0 #ffca3a;
-  }
+    .section-divider::before,
+    .section-divider::after {
+      content: "";
+      flex: 1;
+      height: 3px;
+      background: linear-gradient(90deg, #ff6b6b, #4ecdc4, #45b7d1);
+      border-radius: 2px;
+    }
 
-  .word-count-bubble::before {
-    content: "";
-    position: absolute;
-    left: -10px;
-    top: 50%;
-    transform: translateY(-50%);
-    border-width: 10px 10px 10px 0;
-    border-style: solid;
-    border-color: transparent #3a86ff transparent transparent;
-  }
-  
-  /* Section dividers with cartoon elements */
-  .section-divider {
-    display: flex;
-    align-items: center;
-    margin: 25px 0;
-  }
-  
-  .section-divider::before, .section-divider::after {
-    content: "";
-    flex: 1;
-    height: 2px;
-    background-color: #ffca3a;
-  }
-  
-  .section-divider i {
-    padding: 0 15px;
-    color: #ff9e00;
-    font-size: 24px;
-  }
-</style>
+    .section-divider i {
+      background: linear-gradient(145deg, #ffffff, #f0f0f0);
+      color: #ff6b6b;
+      font-size: 2rem;
+      padding: 15px;
+      border-radius: 50%;
+      margin: 0 20px;
+      box-shadow: 
+        5px 5px 10px rgba(0,0,0,0.1),
+        -5px -5px 10px rgba(255,255,255,0.8);
+      animation: spin 4s linear infinite;
+    }
 
-<body class="p-2">
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .word-count-bubble {
+      background: linear-gradient(145deg, #4ecdc4, #45b7d1);
+      color: white;
+      padding: 10px 20px;
+      border-radius: 25px;
+      font-weight: 700;
+      box-shadow: 
+        5px 5px 15px rgba(0,0,0,0.2),
+        -2px -2px 5px rgba(255,255,255,0.1);
+      position: relative;
+      display: inline-block;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+
+    .word-count-bubble::before {
+      content: "";
+      position: absolute;
+      left: -10px;
+      top: 50%;
+      transform: translateY(-50%);
+      border: 10px solid transparent;
+      border-right-color: #4ecdc4;
+    }
+
+    .category-selector {
+      background: linear-gradient(145deg, #f8f9fa, #e9ecef);
+      border-radius: 20px;
+      padding: 25px;
+      box-shadow: 
+        inset 5px 5px 10px rgba(0,0,0,0.05),
+        inset -5px -5px 10px rgba(255,255,255,0.8);
+    }
+
+    .category-card {
+      background: linear-gradient(145deg, #ffffff, #f0f0f0);
+      border: 3px solid #e9ecef;
+      border-radius: 15px;
+      padding: 15px 10px;
+      margin-bottom: 15px;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      text-align: center;
+      font-weight: 700;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .category-card::before {
+      content: "";
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(45deg, transparent, rgba(255,255,255,0.3), transparent);
+      transform: rotate(45deg);
+      transition: all 0.5s;
+      opacity: 0;
+    }
+
+    .category-card:hover {
+      transform: translateY(-5px) scale(1.05);
+      box-shadow: 
+        0 10px 25px rgba(0,0,0,0.15),
+        0 5px 10px rgba(0,0,0,0.1);
+      border-color: #4ecdc4;
+    }
+
+    .category-card:hover::before {
+      opacity: 1;
+      left: -100%;
+      top: -100%;
+    }
+
+    .btn-check:checked + .category-card {
+      background: linear-gradient(145deg, #4ecdc4, #45b7d1);
+      color: white;
+      border-color: #ff6b6b;
+      transform: scale(1.1);
+      box-shadow: 
+        0 15px 30px rgba(78, 205, 196, 0.4),
+        inset 2px 2px 5px rgba(255,255,255,0.2);
+    }
+
+    .btn-primary {
+      background: linear-gradient(145deg, #ff6b6b, #ee5a52);
+      border: none;
+      border-radius: 25px;
+      padding: 15px 40px;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: white;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 
+        0 10px 25px rgba(255, 107, 107, 0.3),
+        inset 2px 2px 5px rgba(255,255,255,0.2);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-primary::before {
+      content: "🚀";
+      position: absolute;
+      right: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 1.2rem;
+      animation: rocket 2s infinite;
+    }
+
+    @keyframes rocket {
+      0%, 100% { transform: translateY(-50%) translateX(0); }
+      50% { transform: translateY(-50%) translateX(5px); }
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 
+        0 15px 35px rgba(255, 107, 107, 0.4),
+        inset 2px 2px 5px rgba(255,255,255,0.3);
+    }
+
+    .btn-primary:active {
+      transform: translateY(-1px) scale(1.02);
+    }
+
+    small.text-muted {
+      color: #6c757d;
+      font-style: italic;
+      margin-top: 5px;
+      display: block;
+    }
+
+    .row {
+      display: flex;
+      flex-wrap: wrap;
+      margin: -10px;
+    }
+
+    .col-6, .col-md-4, .col-lg-3 {
+      padding: 10px;
+    }
+
+    .col-6 { flex: 0 0 50%; }
+
+    @media (min-width: 768px) {
+      .col-md-4 { flex: 0 0 33.333333%; }
+    }
+
+    @media (min-width: 992px) {
+      .col-lg-3 { flex: 0 0 25%; }
+    }
+
+    @media (max-width: 768px) {
+      .form-section-title {
+        font-size: 2rem;
+      }
+      
+      .big-container {
+        padding: 20px;
+      }
+      
+      .col-6 {
+        flex: 0 0 100%;
+      }
+    }
+
+    /* Fun loading animation */
+    .form-control:focus::after {
+      content: "✨";
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      animation: sparkle 1s infinite;
+    }
+
+    @keyframes sparkle {
+      0%, 100% { opacity: 0; transform: translateY(-50%) scale(0.5); }
+      50% { opacity: 1; transform: translateY(-50%) scale(1.2); }
+    }
+  </style>
+
+
+<body class="p-2" data-theme="light" onload="applyTheme()">
   <%- include('./partials/nav', { searchQuery: searchQuery || "" }) %>
 
-  <div class="container mt-5">
+  <!-- Move theme toggle so it's not obscured by floating elements -->
+  <button class="theme-toggle" title="Toggle Theme" id="themeToggle">
+    <i id="themeIcon" class="fas fa-moon"></i>
+  </button>
+
+   <div class="container">
     <h1 class="form-section-title">Create Your Amazing Blog Post!</h1>
     
-    <div class="big-container justify-content-center align-items-center m-2 mt-4 p-4 gap-4 border rounded-3 shadow">
+    <div class="big-container">
       <form method="post" action="/blog" enctype="multipart/form-data">
         
         <div class="mb-4 p-2">
           <label for="coverImage" class="form-label">Cover Image</label>
-          <input type="file" class="form-control" id="coverImage" name="coverImage" aria-describedby="coverImage" accept="image/*" required>
+          <input type="file" class="form-control" id="coverImage" name="coverImage" accept="image/*" required>
           <small class="text-muted">Choose an eye-catching image for your blog!</small>
         </div>
         
@@ -248,11 +413,7 @@
         
         <div class="mb-4 p-2">
           <label for="title" class="form-label">Title</label>
-          <input type="text" class="form-control text-black" 
-              name="title" id="title" 
-              aria-describedby="title" 
-              placeholder="Enter your brilliant title here..." 
-              required>
+          <input type="text" class="form-control" name="title" id="title" placeholder="Enter your brilliant title here..." required>
         </div>
         
         <div class="section-divider">
@@ -261,13 +422,12 @@
         
         <div class="mb-4 p-2">
           <label for="body" class="form-label">Your Story</label>
-          <div class="form-floating position-relative">
-              <textarea class="form-control text-black pb-2" 
-                  name="body" id="body"
-                  style="min-height: 150px; max-height: 400px;" 
-                  required oninput="handleInput(this)" placeholder="Unleash your creativity here (max 600 words)"></textarea>
-                  <small class="text-muted">Unleash your creativity here </small>
-
+          <div class="text-end mb-2">
+            <button type="button" class="btn btn-secondary" onclick="generateWithAI()">✨ Generate with AI</button>
+          </div>
+          <div class="position-relative">
+            <textarea class="form-control" name="body" id="body" required oninput="handleInput(this)" placeholder="Unleash your creativity here (max 600 words)"></textarea>
+            <small class="text-muted">Unleash your creativity here</small>
           </div>
           <div class="d-flex justify-content-end mt-2">
             <div class="word-count-bubble">
@@ -280,25 +440,65 @@
           <i class="fas fa-tags"></i>
         </div>
         
-        <!-- categories section -->
-        <div class="category-selector mb-4 p-3">
-          <label class="form-label">Select Category</label>
-          <div class="row g-3">
-            <% const categories=[ { name: 'Technology' , icon: 'microchip' }, { name: 'Health' , icon: 'heartbeat' }, {
-              name: 'Education' , icon: 'graduation-cap' }, { name: 'Business' , icon: 'briefcase' }, {
-              name: 'Lifestyle' , icon: 'spa' }, { name: 'Travel' , icon: 'plane-departure' }, { name: 'Food' ,
-              icon: 'utensils' }, { name: 'Finance' , icon: 'chart-line' }, { name: 'Science' , icon: 'flask' }, {
-              name: 'Entertainment' , icon: 'film' } ]; %>
-              <% categories.forEach(category=> { %>
-                <div class="col-6 col-md-4 col-lg-3">
-                  <input type="radio" class="btn-check" name="category" id="<%= category.name %>"
-                    value="<%= category.name %>" autocomplete="off" required>
-                  <label class="btn category-card" for="<%= category.name %>">
-                    <i class="fas fa-<%= category.icon %> me-2"></i>
-                    <%= category.name %>
-                  </label>
-                </div>
-              <% }); %>
+        <div class="category-selector mb-4">
+          <label class="form-label">Select a Category</label>
+          <div class="row">
+            <div class="col-6 col-md-4 col-lg-3">
+              <input type="radio" class="btn-check" name="category" id="cat-Technology" value="Technology" required style="display: none;">
+              <label class="category-card" for="cat-Technology">
+                <i class="fas fa-microchip me-2"></i>
+                <span>Technology</span>
+              </label>
+            </div>
+            <div class="col-6 col-md-4 col-lg-3">
+              <input type="radio" class="btn-check" name="category" id="cat-Health" value="Health" style="display: none;">
+              <label class="category-card" for="cat-Health">
+                <i class="fas fa-heartbeat me-2"></i>
+                <span>Health</span>
+              </label>
+            </div>
+            <div class="col-6 col-md-4 col-lg-3">
+              <input type="radio" class="btn-check" name="category" id="cat-Education" value="Education" style="display: none;">
+              <label class="category-card" for="cat-Education">
+                <i class="fas fa-graduation-cap me-2"></i>
+                <span>Education</span>
+              </label>
+            </div>
+            <div class="col-6 col-md-4 col-lg-3">
+              <input type="radio" class="btn-check" name="category" id="cat-Business" value="Business" style="display: none;">
+              <label class="category-card" for="cat-Business">
+                <i class="fas fa-briefcase me-2"></i>
+                <span>Business</span>
+              </label>
+            </div>
+            <div class="col-6 col-md-4 col-lg-3">
+              <input type="radio" class="btn-check" name="category" id="cat-Lifestyle" value="Lifestyle" style="display: none;">
+              <label class="category-card" for="cat-Lifestyle">
+                <i class="fas fa-spa me-2"></i>
+                <span>Lifestyle</span>
+              </label>
+            </div>
+            <div class="col-6 col-md-4 col-lg-3">
+              <input type="radio" class="btn-check" name="category" id="cat-Travel" value="Travel" style="display: none;">
+              <label class="category-card" for="cat-Travel">
+                <i class="fas fa-plane-departure me-2"></i>
+                <span>Travel</span>
+              </label>
+            </div>
+            <div class="col-6 col-md-4 col-lg-3">
+              <input type="radio" class="btn-check" name="category" id="cat-Food" value="Food" style="display: none;">
+              <label class="category-card" for="cat-Food">
+                <i class="fas fa-utensils me-2"></i>
+                <span>Food</span>
+              </label>
+            </div>
+            <div class="col-6 col-md-4 col-lg-3">
+              <input type="radio" class="btn-check" name="category" id="cat-Finance" value="Finance" style="display: none;">
+              <label class="category-card" for="cat-Finance">
+                <i class="fas fa-chart-line me-2"></i>
+                <span>Finance</span>
+              </label>
+            </div>
           </div>
         </div>
       
@@ -306,13 +506,11 @@
           <i class="fas fa-hashtag"></i>
         </div>
         
-        <!-- tags section -->
         <div class="mb-4 p-3">
           <label for="tags" class="form-label">Tags</label>
-          <input type="text" class="form-control text-black" name="tags" id="tags"
-            placeholder="e.g., AI, Machine Learning, Health (comma-separated)" autocomplete="off" list="tagsList" required>
+          <input type="text" class="form-control" name="tags" id="tags" placeholder="e.g., AI, Machine Learning, Health (comma-separated)" list="tagsList" required>
           <datalist id="tagsList">
-            <option>Ai</option>
+            <option>AI</option>
             <option>Health</option>
             <option>Education</option>
             <option>Business</option>
@@ -323,7 +521,7 @@
             <option>Science</option>
             <option>Entertainment</option>
             <option>Technology</option>
-            <option>Hardware</option>  
+            <option>Hardware</option>
             <option>Machine Learning</option>
             <option>Deep Learning</option>
             <option>Artificial Intelligence</option>
@@ -332,40 +530,73 @@
         </div>
       
         <div class="p-3 text-center">
-          <button type="submit" class="btn btn-primary btn-lg px-5">Publish Your Blog!</button>
+          <button type="submit" class="btn btn-primary">Publish Your Blog!</button>
         </div>
       </form>
     </div>
   </div>
 
-  <%- include('./partials/script') %>
-  <%- include('./partials/footer') %>
-  
-  <script> // For word count
-  function handleInput(textarea) {
-      // Ensure text starts from the left
-      textarea.style.textAlign = "left";
-      textarea.style.direction = "ltr";
-      
-      // Auto-resize
-      textarea.style.height = "auto";
-      textarea.style.height = (textarea.scrollHeight) + "px";
-  
-      // Count words
-      let words = textarea.value.trim().split(/\s+/).filter(word => word.length > 0);
-      let wordCount = words.length;
-  
-      // Display word count
-      document.getElementById("word-count").innerText = `${wordCount} / 600`;
-  
-      // Restrict to 600 words
-      if (wordCount > 600) {
-          alert("You've reached the 600-word limit! Time to wrap up your thoughts.");
-          textarea.value = words.slice(0, 600).join(" ");
-          textarea.style.height = textarea.scrollHeight + "px";
-      }
+    <%- include('./partials/script') %>
+      <%- include('./partials/footer') %>
+
+        <script> //word count and auto resize
+          // For word count and auto resize
+          function handleInput(textarea) {
+            textarea.style.textAlign = "left";
+            textarea.style.direction = "ltr";
+            textarea.style.height = "auto";
+            textarea.style.height = (textarea.scrollHeight) + "px";
+
+            const words = textarea.value.trim().split(/\s+/).filter(word => word.length > 0);
+            const wordCount = words.length;
+            const maxWords = 600;
+
+            // Update counter
+            document.getElementById("word-count").innerText = `${wordCount} / ${maxWords}`;
+
+            // Restrict words
+            if (wordCount > maxWords) {
+              alert("You've reached the 600-word limit! Time to wrap up your thoughts.");
+              textarea.value = words.slice(0, maxWords).join(" ");
+              textarea.style.height = textarea.scrollHeight + "px";
+            }
+          }
+        </script>
+
+
+
+
+  <script>
+  window.generateWithAI = async function () {
+    const title = document.getElementById("title").value;
+    const bodyField = document.getElementById("body");
+
+    if (!title.trim()) {
+      alert("Please enter a title first.");
+      return;
+    }
+
+    bodyField.value = "⏳ Generating blog with AI...";
+
+    try {
+      const response = await fetch("/ai/generate-blog", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ title })
+      });
+
+      const data = await response.json();
+      bodyField.value = data.content || "⚠️ No content generated.";
+      handleInput(bodyField);
+    } catch (error) {
+      console.error("AI generation error:", error);
+      bodyField.value = "❌ Error generating blog.";
+    }
   }
-  </script>
+</script>
+
   
+
 </body>
+
 </html>
